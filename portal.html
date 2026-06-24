@@ -634,23 +634,42 @@ img { max-width: 100%; display: block; }
 /* ============= NEW: TOP BAR (home + member screens) ============= */
 .topbar{
   display:flex; align-items:center; justify-content:space-between;
-  width:100%; max-width:1100px; padding:0.6rem 1rem;
-  background:linear-gradient(90deg, rgba(26,16,36,0.95), rgba(40,24,56,0.95));
-  border:1px solid rgba(251,191,36,0.3); border-radius:14px;
-  box-shadow:0 4px 20px rgba(0,0,0,0.4);
+  width:100%; max-width:100%; padding:0.8rem 1.2rem;
+  background:linear-gradient(180deg, #2a1a3a 0%, #1a1024 50%, #2a1a3a 100%);
+  border:2px solid var(--amber); border-radius:16px;
+  /* 3D effect: multiple layered shadows */
+  box-shadow:
+    0 6px 0 #5c3825,
+    0 8px 0 #3b2417,
+    0 10px 0 #2a1810,
+    0 12px 24px rgba(0,0,0,0.6),
+    0 0 32px rgba(251,191,36,0.25),
+    inset 0 2px 4px rgba(251,191,36,0.15),
+    inset 0 -2px 4px rgba(0,0,0,0.4);
   margin-bottom:1.2rem;
+  position:relative;
 }
-.topbar-left{ display:flex; align-items:center; gap:0.8rem; }
-.topbar-logo{ width:48px; height:48px; border-radius:10px; object-fit:cover;
-  box-shadow:0 0 12px rgba(251,191,36,0.5); }
+.topbar::before{
+  content:''; position:absolute; top:-3px; left:-3px; right:-3px; bottom:-3px;
+  border-radius:18px; pointer-events:none;
+  background:linear-gradient(135deg, rgba(251,191,36,0.4), transparent 40%, transparent 60%, rgba(251,191,36,0.4));
+  z-index:-1; filter:blur(2px);
+}
+.topbar-left{ display:flex; align-items:center; gap:0.9rem; }
+.topbar-logo{ width:56px; height:56px; border-radius:12px; object-fit:cover;
+  box-shadow:0 0 16px rgba(251,191,36,0.7), 0 4px 8px rgba(0,0,0,0.5);
+  border:2px solid var(--amber); }
 .topbar-titles{ display:flex; flex-direction:column; line-height:1.15; }
-.topbar-title{ font-size:0.95rem; font-weight:900; color:var(--amber);
-  letter-spacing:0.08em; }
-.topbar-sub{ font-size:0.72rem; color:#fff; opacity:0.85; letter-spacing:0.04em; }
+.topbar-title{ font-size:1.05rem; font-weight:900; color:var(--amber);
+  letter-spacing:0.08em;
+  text-shadow:0 2px 4px rgba(0,0,0,0.6), 0 0 12px rgba(251,191,36,0.4); }
+.topbar-sub{ font-size:0.78rem; color:#fff; opacity:0.9; letter-spacing:0.04em;
+  text-shadow:0 1px 2px rgba(0,0,0,0.6); }
 .topbar-right{ display:flex; align-items:center; gap:0.6rem; }
-.topbar-clock{ background:rgba(0,0,0,0.4); border:1px dashed var(--amber);
-  padding:0.35rem 0.7rem; border-radius:8px; color:var(--amber-light);
-  font-family:'Courier New',monospace; font-size:0.8rem; font-weight:700; }
+.topbar-clock{ background:rgba(0,0,0,0.5); border:1px dashed var(--amber);
+  padding:0.4rem 0.8rem; border-radius:8px; color:var(--amber-light);
+  font-family:'Courier New',monospace; font-size:0.85rem; font-weight:700;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,0.5); }
 .topbar-home-btn{ background:transparent; border:1px solid var(--amber);
   color:var(--amber); padding:0.35rem 0.6rem; border-radius:8px; cursor:pointer;
   font-size:0.78rem; font-weight:700; }
@@ -718,6 +737,24 @@ img { max-width: 100%; display: block; }
 .pdpa-compliance{ font-size:0.7rem; color:#6b7280; }
 .pdpa-compliance b{ color:var(--amber-light); }
 
+/* ============= WELCOME MARQUEE ============= */
+.welcome-marquee-wrap{
+  width:100%; max-width:1100px; margin:0 0 1rem;
+  background:linear-gradient(90deg, rgba(120,53,15,0.4), rgba(180,83,9,0.5), rgba(120,53,15,0.4));
+  border:1px solid rgba(251,191,36,0.5); border-radius:10px;
+  padding:0.5rem 1rem; overflow:hidden;
+  box-shadow:0 4px 16px rgba(0,0,0,0.4), inset 0 1px 2px rgba(251,191,36,0.2);
+}
+.welcome-marquee{
+  color:var(--amber-light); font-size:0.9rem; font-weight:700;
+  letter-spacing:0.05em; text-shadow:0 1px 3px rgba(0,0,0,0.6);
+}
+
+/* ============= OSB TABLE (narrower) ============= */
+.osb-table{ font-size:0.82rem; }
+.osb-table th, .osb-table td{ padding:0.5rem 0.5rem; }
+
+/* ============= UPDATE: search card centering ============= */
 /* ============= UPDATE: search card centering ============= */
 .search-card{ margin:0 auto; }
 
@@ -941,6 +978,13 @@ img { max-width: 100%; display: block; }
     <div class="topbar-right">
       <span class="topbar-clock" id="clockPill">--:--:--</span>
     </div>
+  </div>
+
+  <!-- SELAMAT DATANG MARQUEE (scrolls left) -->
+  <div class="welcome-marquee-wrap">
+    <marquee direction="left" scrollamount="4" behavior="scroll" class="welcome-marquee">
+      ✨ SELAMAT DATANG KE PORTAL SEMAKAN AHLI TSR MANAGEMENT TEAM ✨ SISTEM PENGURUSAN AHLI BERDAFTAR ✨ PORTAL RASMI TSRMT ✨
+    </marquee>
   </div>
 
   <!-- INFO BAR (ahli count + visitors) -->
@@ -1803,13 +1847,23 @@ function isAhliEditable(k){ return AHLI_EDITABLE.includes(String(k).toUpperCase(
 
 const GANJARAN_SUFFIXES = [
   'HADIAH-MISTERI',
+  'HADIAH MISTERI',
   'NO.CABUTAN-BERTUAH',
+  'NO CABUTAN BERTUAH',
   'QTY COI',
+  'QTYCOI',
   'HADIAH2',
+  'HADIAH 2',
   'CABUTAN-BERTUAH',
+  'CABUTAN BERTUAH',
   'CABUTAN-BONANZA',
+  'CABUTAN BONANZA',
   'GOLD-BAR-SPECIAL',
-  'SPECIAL-HADIAH-SEMASA-EVENT-LELONG'
+  'GOLD BAR SPECIAL',
+  'SPECIAL-HADIAH-SEMASA-EVENT-LELONG',
+  'SPECIAL HADIAH SEMASA EVENT LELONG',
+  'SPECIAL-HADIAH-SEMASA-EVENT-LOT',
+  'SPECIAL HADIAH SEMASA EVENT LOT'
 ];
 
 function getMemberICandNama(){
@@ -1906,9 +1960,33 @@ function renderTab(){
     // PDF tab is an action-tab, not a content tab. Trigger export, then bounce
     // back to the last data tab so user doesn't see an empty card.
     const card = makeCard('EKSPORT PDF','📄');
+    // TSRMT logo above download button
+    const logoWrap = document.createElement('div');
+    logoWrap.style.cssText = 'text-align:center;padding:1rem 0 0.5rem;';
+    try {
+      const homeLogo = document.querySelector('.home-logo');
+      if(homeLogo && homeLogo.src && homeLogo.src.startsWith('data:image')){
+        const img = document.createElement('img');
+        img.src = homeLogo.src;
+        img.alt = 'TSRMT Logo';
+        img.style.cssText = 'width:120px;height:120px;object-fit:contain;border-radius:14px;box-shadow:0 6px 24px rgba(251,191,36,0.5);border:2px solid var(--amber);';
+        logoWrap.appendChild(img);
+      } else {
+        logoWrap.innerHTML = '<div style="font-size:3rem;">🏛️</div>';
+      }
+    } catch(e){ logoWrap.innerHTML = '<div style="font-size:3rem;">🏛️</div>'; }
+    card.appendChild(logoWrap);
+    const titleDiv = document.createElement('div');
+    titleDiv.style.cssText = 'text-align:center;color:var(--amber);font-weight:900;letter-spacing:0.1em;font-size:1.05rem;margin-bottom:0.3rem;';
+    titleDiv.textContent = 'TSR MANAGEMENT TEAM';
+    card.appendChild(titleDiv);
+    const subDiv = document.createElement('div');
+    subDiv.style.cssText = 'text-align:center;color:var(--amber-light);font-size:0.78rem;margin-bottom:1rem;opacity:0.85;';
+    subDiv.textContent = 'Laporan Maklumat Ahli';
+    card.appendChild(subDiv);
     const info = document.createElement('div');
-    info.style.cssText = 'padding:1.5rem 1rem;text-align:center;color:var(--gray-light);font-size:0.9rem;line-height:1.6;';
-    info.innerHTML = 'PDF akan dijana secara automatik.<br><br>Sekiranya tiada popup download, sila klik butang di bawah.';
+    info.style.cssText = 'padding:0.5rem 1rem;text-align:center;color:var(--gray-light);font-size:0.85rem;line-height:1.6;';
+    info.innerHTML = 'PDF akan dijana secara automatik.<br>Sekiranya tiada popup download, sila klik butang di bawah.';
     card.appendChild(info);
     const btn = document.createElement('button');
     btn.className = 'btn btn-primary btn-block';
@@ -2108,12 +2186,35 @@ function renderPlanCard(){
 
   // ====== New multi-column table ======
   // Columns: NO | PLAN | TARIKH | MODAL | TOKEN | POCKET MONEY | LAIN-LAIN | JUMLAH IMBUHAN
-  // For each plan entry, detect sub-type by keyword in column name:
-  //   contains MODAL → MODAL column
+  // Classification by column-name suffix:
+  //   ends with _MODAL → MODAL column
   //   contains TOKEN → TOKEN column
   //   contains POCKET → POCKET MONEY column
-  //   else → LAIN-LAIN column
+  //   else (including _PO, _BONUS_AWALAN, plain names) → LAIN-LAIN column
   // JUMLAH IMBUHAN = TOKEN + POCKET MONEY + LAIN-LAIN (EXCLUDING MODAL)
+  // Build rows with date for sorting
+  const rowList = planItems.map(([k,v])=>{
+    const num = parseFloat(String(v||'').replace(/[^0-9.\-]/g,'')) || 0;
+    const upperKey = String(k).toUpperCase();
+    let modal = 0, token = 0, pocket = 0, lain = 0;
+    if(upperKey.endsWith('_MODAL') || upperKey.includes('_MODAL_')){ modal = num; }
+    else if(upperKey.includes('TOKEN')){ token = num; }
+    else if(upperKey.includes('POCKET')){ pocket = num; }
+    else { lain = num; } // _PO, _BONUS_AWALAN, plain names → LAIN-LAIN
+    const jumlah = token + pocket + lain;
+    const baseName = extractPlanBaseName(k);
+    const dateStr = getColumnDate(k) || getPlanDate(baseName) || '';
+    return { k, baseName, dateStr, modal, token, pocket, lain, jumlah, ts: parsePlanDate(dateStr) };
+  });
+  // SORT by date ascending (earliest first); undated rows go to the end
+  rowList.sort((a,b)=> (a.ts - b.ts) || a.baseName.localeCompare(b.baseName));
+
+  let totalModal = 0, totalToken = 0, totalPocket = 0, totalLain = 0, totalJumlah = 0;
+  rowList.forEach(r=>{
+    totalModal += r.modal; totalToken += r.token;
+    totalPocket += r.pocket; totalLain += r.lain; totalJumlah += r.jumlah;
+  });
+
   const tbl = document.createElement('table');
   tbl.className = 'plan-table col-table';
   tbl.innerHTML =
@@ -2128,31 +2229,18 @@ function renderPlanCard(){
     + '<th class="num jumlah">JUMLAH IMBUHAN</th>'
     + '</tr></thead>';
   const tbody = document.createElement('tbody');
-  let totalModal = 0, totalToken = 0, totalPocket = 0, totalLain = 0, totalJumlah = 0;
 
-  planItems.forEach(([k,v], idx)=>{
-    const num = parseFloat(String(v||'').replace(/[^0-9.\-]/g,'')) || 0;
-    const upperKey = String(k).toUpperCase();
-    let modal = 0, token = 0, pocket = 0, lain = 0;
-    if(upperKey.includes('MODAL')){ modal = num; totalModal += num; }
-    else if(upperKey.includes('TOKEN')){ token = num; totalToken += num; }
-    else if(upperKey.includes('POCKET')){ pocket = num; totalPocket += num; }
-    else { lain = num; totalLain += num; }
-    const jumlah = token + pocket + lain; // EXCLUDES MODAL
-    totalJumlah += jumlah;
-
-    const baseName = extractPlanBaseName(k);
-    const dateStr = getPlanDate(baseName);
+  rowList.forEach((r, idx)=>{
     const tr = document.createElement('tr');
     tr.innerHTML =
       '<td>'+(idx+1)+'</td>'
-      + '<td class="plan-name">'+fieldLabel(baseName)+'</td>'
-      + '<td>'+(dateStr||'—')+'</td>'
-      + '<td class="num">'+(modal? modal.toFixed(2) : '—')+'</td>'
-      + '<td class="num">'+(token? token.toFixed(2) : '—')+'</td>'
-      + '<td class="num">'+(pocket? pocket.toFixed(2) : '—')+'</td>'
-      + '<td class="num">'+(lain? lain.toFixed(2) : '—')+'</td>'
-      + '<td class="num jumlah">'+jumlah.toFixed(2)+'</td>';
+      + '<td class="plan-name">'+fieldLabel(r.baseName)+'</td>'
+      + '<td>'+(r.dateStr||'—')+'</td>'
+      + '<td class="num">'+fmtCell(r.modal)+'</td>'
+      + '<td class="num">'+fmtCell(r.token)+'</td>'
+      + '<td class="num">'+fmtCell(r.pocket)+'</td>'
+      + '<td class="num">'+fmtCell(r.lain)+'</td>'
+      + '<td class="num jumlah">'+fmtCell(r.jumlah)+'</td>';
     tbody.appendChild(tr);
   });
 
@@ -2162,11 +2250,11 @@ function renderPlanCard(){
     '<td></td>'
     + '<td>JUMLAH KESELURUHAN</td>'
     + '<td></td>'
-    + '<td class="num">'+totalModal.toFixed(2)+'</td>'
-    + '<td class="num">'+totalToken.toFixed(2)+'</td>'
-    + '<td class="num">'+totalPocket.toFixed(2)+'</td>'
-    + '<td class="num">'+totalLain.toFixed(2)+'</td>'
-    + '<td class="num jumlah">'+totalJumlah.toFixed(2)+'</td>';
+    + '<td class="num">'+fmtNum(totalModal)+'</td>'
+    + '<td class="num">'+fmtNum(totalToken)+'</td>'
+    + '<td class="num">'+fmtNum(totalPocket)+'</td>'
+    + '<td class="num">'+fmtNum(totalLain)+'</td>'
+    + '<td class="num jumlah">'+fmtNum(totalJumlah)+'</td>';
   tbody.appendChild(trTotal);
   tbl.appendChild(tbody);
 
@@ -2256,10 +2344,10 @@ function renderGanjaranCard(){
 }
 
 function renderObCard(){
-  const card = makeCard('REKOD OB','⚰️');
+  const card = makeCard('REKOD OSB','⚰️');
   // 3-state UI consistent with PLAN tab
   if(sheetLoadState.ob === 'loading'){
-    card.appendChild(buildStateBox('loading','Sedang memuatkan data OB',
+    card.appendChild(buildStateBox('loading','Sedang memuatkan data OSB',
       'Portal sedang mengambil rekod dari table rekod_osb. Sila tunggu sebentar.'));
     return card;
   }
@@ -2274,19 +2362,96 @@ function renderObCard(){
     return card;
   }
   if(!currentMember.ob){
-    card.appendChild(buildStateBox('empty','Tiada rekod OB',
+    card.appendChild(buildStateBox('empty','Tiada rekod OSB',
       'Ahli ini tiada rekod dalam table rekod_osb.'));
     return card;
   }
-  const entries = Object.entries(currentMember.ob)
+  // OB/OSB record fields: NAMA, TARIKH, STATUS, REMARK, + monetary columns (OSB_VS_1..4, YURAN_WEBSITE_OSB)
+  const ob = currentMember.ob;
+  // 1. Render header info (NAMA, TARIKH, STATUS, REMARK) as field rows
+  const headerFields = ['NAMA','TARIKH','STATUS','REMARK','CATATAN'];
+  const headerEntries = Object.entries(ob)
     .filter(([k,v])=> (v!=='' && v!=null))
-    .filter(([k])=> !String(k).startsWith('__') && !isICField(k));
-  if(entries.length === 0){
-    card.appendChild(buildStateBox('empty','Tiada rekod OB',
+    .filter(([k])=> {
+      const u = String(k).toUpperCase().trim();
+      return !String(k).startsWith('__') && !isICField(k) && !isBilField(k)
+        && headerFields.some(h=> u === h || u.includes(h));
+    });
+  // 2. Collect monetary OSB entries
+  const monetaryEntries = Object.entries(ob)
+    .filter(([k,v])=> {
+      const u = String(k).toUpperCase();
+      const num = parseFloat(String(v||'').replace(/[^0-9.\-]/g,''));
+      return !isNaN(num) && num !== 0
+        && !String(k).startsWith('__') && !isICField(k) && !isBilField(k)
+        && !headerFields.some(h=> u === h || u.includes(h));
+    });
+
+  if(headerEntries.length === 0 && monetaryEntries.length === 0){
+    card.appendChild(buildStateBox('empty','Tiada rekod OSB',
       'Ahli ini ada rekod dalam table rekod_osb tetapi semua medan kosong.'));
     return card;
   }
-  entries.forEach(([k,v])=> renderFieldRow(card, k, v));
+
+  // Render header info rows (NAMA, TARIKH, STATUS, REMARK)
+  headerEntries.forEach(([k,v])=> renderFieldRow(card, k, v));
+
+  // Render OSB monetary table: NO | ITEM | TARIKH | MODAL | LAIN-LAIN | JUMLAH IMBUHAN
+  if(monetaryEntries.length > 0){
+    const rowList = monetaryEntries.map(([k,v])=>{
+      const num = parseFloat(String(v||'').replace(/[^0-9.\-]/g,'')) || 0;
+      const upperKey = String(k).toUpperCase();
+      let modal = 0, lain = 0;
+      if(upperKey.includes('MODAL')){ modal = num; }
+      else { lain = num; }
+      const jumlah = lain; // EXCLUDES MODAL
+      const dateStr = getColumnDate(k) || '';
+      return { k, baseName: extractPlanBaseName(k), dateStr, modal, lain, jumlah, ts: parsePlanDate(dateStr) };
+    });
+    rowList.sort((a,b)=> (a.ts - b.ts) || a.baseName.localeCompare(b.baseName));
+    let totalModal = 0, totalLain = 0, totalJumlah = 0;
+    rowList.forEach(r=>{ totalModal += r.modal; totalLain += r.lain; totalJumlah += r.jumlah; });
+
+    const tbl = document.createElement('table');
+    tbl.className = 'plan-table col-table osb-table';
+    tbl.innerHTML =
+      '<thead><tr>'
+      + '<th>NO</th>'
+      + '<th>ITEM OSB</th>'
+      + '<th>TARIKH</th>'
+      + '<th class="num">MODAL</th>'
+      + '<th class="num">LAIN-LAIN</th>'
+      + '<th class="num jumlah">JUMLAH IMBUHAN</th>'
+      + '</tr></thead>';
+    const tbody = document.createElement('tbody');
+    rowList.forEach((r, idx)=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>'+(idx+1)+'</td>'
+        + '<td class="plan-name">'+fieldLabel(r.baseName)+'</td>'
+        + '<td>'+(r.dateStr||'—')+'</td>'
+        + '<td class="num">'+fmtCell(r.modal)+'</td>'
+        + '<td class="num">'+fmtCell(r.lain)+'</td>'
+        + '<td class="num jumlah">'+fmtCell(r.jumlah)+'</td>';
+      tbody.appendChild(tr);
+    });
+    const trTotal = document.createElement('tr');
+    trTotal.className='total-row';
+    trTotal.innerHTML =
+      '<td></td>'
+      + '<td>JUMLAH KESELURUHAN</td>'
+      + '<td></td>'
+      + '<td class="num">'+fmtNum(totalModal)+'</td>'
+      + '<td class="num">'+fmtNum(totalLain)+'</td>'
+      + '<td class="num jumlah">'+fmtNum(totalJumlah)+'</td>';
+    tbody.appendChild(trTotal);
+    tbl.appendChild(tbody);
+    const wrap = document.createElement('div');
+    wrap.style.overflowX='auto';
+    wrap.style.marginTop='0.75rem';
+    wrap.appendChild(tbl);
+    card.appendChild(wrap);
+  }
   return card;
 }
 
@@ -2696,90 +2861,160 @@ function goHome(){
 /* ====================================================================
    PLAN DATES (mirrors plan-dates.ts)
    ==================================================================== */
+// ============================================================
+// COLUMN → DATE MAP (robust: matches exact Supabase column names)
+// ============================================================
+// Map exact column name (UPPERCASE) → date string (d/m/yyyy or 'YYYY' for year-only)
+const COLUMN_DATES = {
+  // 2018
+  'PLAN_SMMG_TAWAKAL_MODAL': '6/3/2018',
+  'PLAN_PORTION_ROYAL_MASTER_4_PO': '8/3/2018',
+  'PORTION_JIMMY_ROYAL_TSRMT_12': '2018',
+  'PLAN_SAGUHATI_PJR_TSRMT_12': '2018',
+  'PLAN_PORTION_TN_SHAM_PPTS_TSRMT_12': '2018',
+  'PLAN_MANAGEMENT_TUAN_JIMMY_PMTJ_PO': '13/3/2018',
+  'PLAN_SETIA_BERSAMAMU_PSB_PO': '26/3/2018',
+  'BONUS_STAMPING': '30/3/2018',
+  'PLAN_HINGGA_HUJUNG_NYAWA_PHHN_PO': '6/4/2018',
+  'PORTION_TOKEN_TUAN_JIMMY_TTJ': '6/4/2018',
+  'PORTION_TOKEN_TAMBAHAN_TUAN_JIMMY_OFFLINE_TTTJOFF': '14/4/2018',
+  'PLAN_SUMBANGAN_PORTION_JIKA_TEGAR_SPJT': '17/4/2018',
+  'PLAN_FINAL_DESTINATION_PFD': '30/4/2018',
+  'PORTION_SUMBANGAN_OFFLINE_TJM': '31/5/2018',
+  'SUMBANGAN_PENGURUSAN_TERTINGGI_SPT': '22/6/2018',
+  'SUMBANGAN_BANTUAN_KEWANGAN_SMMG_SBK_1': '3/7/2018',
+  'SUMBANGAN_BANTUAN_KEWANGAN_SMMG_SBK_2': '5/7/2018',
+  'COLLECTION_BANTUAN_KHAS_TSR_CBK': '29/7/2018',
+  'SUMBANGAN_SPECIAL_BONUS_SSB': '16/8/2018',
+  'SUMBANGAN_FINAL_SMMG_SFS': '26/9/2018',
+  'SUMBANGAN_TAMBAHAN_TSRMT_STT': '30/10/2018',
+  'PLAN_SQUARING_ACCOUNT_PROCESSING_SAP': '21/12/2018',
+  // 2019
+  'SAMPAI_PAY_OUT_16_SPO16': '14/1/2019',
+  'SUMBANGAN_LAST_CALL_SLC': '8/3/2019',
+  'PLAN_BTMA_TSRMT_12': '2019',
+  'NEXT_STAGE_LEVEL_NSL': '5/5/2019',
+  'BANTUAN_KELANCARAN_PENGURUSAN_GROUP_BKPG': '15/7/2019',
+  'FINAL_PLAN_FOR_ALL_FPFA': '1/8/2019',
+  'TEST_RUNNING_PO_TSRMT_TRPT': '6/10/2019',
+  'PLAN_BUKA_SAT_AJA_PBSA': '28/10/2019',
+  'OTHERS': '2019',
+  // 2020
+  'PLAN_EXTRA_COI_PEC': '18/1/2020',
+  'LAST_PLAN_MANAGEMENT_LPM': '6/3/2020',
+  'PLAN_KOMUNITI_BERSAMA_PKB': '19/10/2020',
+  'PLAN_SPECIAL_JUMBO_SJPO': '28/12/2020',
+  'PLAN_UKHWAH_FROM_TSRMT_13': '2020',
+  // 2021
+  'MISTERI_PLAN_TSRMT_MPT': '26/2/2021',
+  'MERDEKA_PLAN_TSRMT_7': '25/8/2021',
+  'PLAN_TOKEN_TERAWAL_TSR_TSRMT_12': '2021',
+  'PLAN_PORTION_VIP_KAK_JUE_PKJ_TSRMT_12': '2021',
+  'PLAN_BANTUAN_KHAS_TSR_PBKTSR_TSRMT_12': '2021',
+  'PLAN_BANTUAN_KHAS_KAK_JUE_PBKKJ_TSRMT_12': '2021',
+  'PLAN_BANTUAN_KHAS_ARIF_TSR_PBKA_TSRMT_12': '2021',
+  'PLAN_MELETOP_TSR_TSRMT_12': '2021',
+  // 2022
+  'PLAN_SMOOTHIE_STRAWBERRY_PSS': '18/1/2022',
+  'PLAN_SMOOTHIE_HARUM_MANIS_SHM': '30/1/2022',
+  'PLAN_FAST_LANE_RBO_PFLRBO': '18/7/2022',
+  'EXTRA_SAGUHATI_TSRMT_12': '2022',
+  'PLAN_TASK_FOR_ENDING_RBO_TFE': '2/10/2022',
+  'PLAN_MAMU_UP': '26/11/2022',
+  // 2023
+  'PLAN_PAKAT_BANTU_RBO_PBR': '3/3/2023',
+  'SUPER_BONUS_TSR_SBT': '4/7/2023',
+  'SUMBANGAN_BANTUAN_RBO_TSRMT_SBR': '5/10/2023',
+  'FINAL_AUTHORISATION_RBO_FAR': '2/7/2023',
+  'SUMBANGAN_CLEARING_PROCESSING_CPR': '23/7/2023',
+  'SUMBANGAN_CLEARING_PROCESSING_CPR_BONUS_AWALAN': '23/7/2023',
+  'SUMBANGAN_SINAR_KEGEMILANGAN_SSK': '11/9/2023',
+  'SEPTEMBER_SUPER_FAST_SSF': '15/9/2023',
+  'SUMBANGAN_CLEARING_ACC_SCA': '20/10/2023',
+  'PLAN_LAST_DRAW_RBO_PLDRBO': '8/11/2023',
+  'YURAN_PERINTIS_RM10': '25/11/2023',
+  'SUMBANGAN_2T_RBO_TSRMT': '23/12/2023',
+  // 2024
+  'PLAN_3C': '18/1/2024',
+  'PLAN_BANTUAN_KHAS_RBO_TSRMT_MEI_1': '22/4/2024',
+  'PLAN_BANTUAN_KHAS_RBO_TSRMT_MEI_2': '7/5/2024',
+  'PORTION_RAHMAH_RBO_V1_TSRMT': '28/5/2024',
+  'PORTION_RAHMAH_RBO_V2_TSRMT': '10/6/2024',
+  'PLAN_SINAR_PELANGI': '1/9/2024',
+  'BANTUAN_KHAS_RBO_KLCC_UPFRONT_OCT_2024_1': '1/10/2024',
+  'BANTUAN_KHAS_RBO_KLCC_UPFRONT_OCT_2024_2': '22/10/2024',
+  // 2025
+  'PLAN_FLY_HIGH_RBO_TSRMT': '17/1/2025',
+  'PLAN_ADVANCE_SYAWAL_VS1': '25/2/2025',
+  'PLAN_ADVANCE_SYAWAL_VS2': '15/3/2025',
+  'PLAN_CRUCIAL_RBO_TSRMT': '10/4/2025',
+  'PLAN_RBO_INVOICES_TSRMT': '11/7/2025',
+  // 2026
+  'PLAN_FINAL_TSRTM_RBO_2026': '24/5/2026',
+  // OSB
+  'OSB_VS_1': '26/1/2023',
+  'OSB_VS_2': '14/7/2024',
+  'OSB_VS_3': '24/5/2025',
+  'OSB_VS_4': '27/6/2025',
+  'YURAN_WEBSITE_OSB': '14/7/2024'
+};
+
+// Legacy base-name → date map (kept as fallback for partial matches)
 const PLAN_DATES = {
   'PLAN SMMG TAWAKAL':'6/3/2018',
   'PLAN PORTION ROYAL MASTER 4':'8/3/2018',
-  'PORTION JIMMY ROYAL(TSRMT-12)':'2018',
-  'PLAN SAGUHATI PJR(TSRMT-12)':'2018',
-  'PLAN PORTION TN SHAM (PPTS)TSRMT-12':'2018',
   'PLAN MANAGEMENT TUAN JIMMY (PMTJ)':'13/3/2018',
-  'PLAN SETIA BERSAMAMU (PSB)':'26/3/2018',
-  'BONUS STAMPING':'30/3/2018',
-  'PLAN HINGGA HUJUNG NYAWA (PHHN)':'6/4/2018',
-  'PORTION TOKEN TUAN JIMMY (TTJ)':'6/4/2018',
-  'PORTION TOKEN TAMBAHAN TUAN JIMMY -OFFLINE(TTTJOFF)':'14/4/2018',
-  'PLAN SUMBANGAN PORTION JIWA TEGAR (SPJT)':'17/4/2018',
-  'PLAN FINAL DESTINATION (PFD)':'30/4/2018',
-  'PORTION SUMBANGAN OFFLINE T.J.M':'31/5/2018',
-  'SUMBANGAN PENGURUSAN TERTINGGI (SPT)':'22/6/2018',
-  'SUMBANGAN BANTUAN KEWANGAN SMMG-SBK 1':'3/7/2018',
-  'SUMBANGAN BANTUAN KEWANGAN SMMG-SBK 2':'5/7/2018',
-  'COLLECTION BANTUAN KHAS TSR -CBK':'29/7/2018',
-  'SUMBANGAN SPECIAL BONUS (SSB)':'16/8/2018',
-  'SUMBANGAN FINAL SMMG -SFS':'26/9/2018',
-  'SUMBANGAN TAMBAHAN TSRMT-STT':'30/10/2018',
-  'PLAN SQUARING ACCOUNT PROCESSING (SAP)':'21/12/2018',
-  'SAMPAI PAY OUT 16 (SPO16)':'14/1/2019',
-  'SUMBANGAN LAST CALL -SLC':'8/3/2019',
-  'PLAN BTMA(TSRMT-12)':'2019',
-  'NEXT STAGE LEVEL (NSL)':'5/5/2019',
-  'BANTUAN KELANCARAN PENGURUSAN GROUP (BKPG)':'15/7/2019',
-  'FINAL PLAN FOR ALL (FPFA)':'1/8/2019',
-  'TEST RUNNING PO TSRMT (TRPT)':'6/10/2019',
-  'PLAN BUKA SAT AJA (PBSA)':'28/10/2019',
-  'OTHERS':'2019',
-  'PLAN EXTRA COI (PEC)':'18/1/2020',
-  'LAST PLAN MANAGEMENT (LPM)':'6/3/2020',
-  'PLAN KOMUNITI BERSAMA (PKB)':'19/10/2020',
-  'PLAN SPECIAL JUMBO - (SJPO)':'28/12/2020',
-  'PLAN UKHWAH (FROM TSRMT 13)':'2020',
-  'MISTERI PLAN TSRMT (MPT)':'26/2/2021',
-  'MERDEKA PLAN- (TSRMT-7)':'25/8/2021',
-  'PLAN TOKEN TERAWAL TSR(TSRMT-12)':'2021',
-  'PLAN PORTION VIP KAK JUE (PKJ) TSRMT-12':'2021',
-  'PLAN BANTUAN KHAS TSR (PBKTSR) TSRMT-12':'2021',
-  'PLAN BANTUAN KHAS KAK JUE (PBKKJ) TSRMT-12':'2021',
-  'PLAN BANTUAN KHAS ARIF@TSR (PBKA) TSRMT-12':'2021',
-  'PLAN MELETOP TSR (TSRMT-12)':'2021',
-  'PLAN SMOOTHIE STRAWBERRY(PSS)':'18/1/2022',
-  'PLAN SMOOTHIE HARUM MANIS (S.H.M)':'30/1/2022',
-  'PLAN FAST LANE RBO (PFLRBO)':'18/7/2022',
-  'EXTRA SAGUHATI (TSRMT-12)':'2022',
-  'PLAN TASK FOR ENDING RBO (TFE)':'2/10/2022',
   'PLAN MAMU UP':'26/11/2022',
   'PLAN PAKAT BANTU RBO (PBR)':'3/3/2023',
-  'SUPER BONUS TSR (SBT)':'4/7/2023',
-  'SUMBANGAN BANTUAN RBO TSRMT (SBR)':'5/10/2023',
-  'FINAL AUTHORISATION RBO (FAR)':'2/7/2023',
-  'SUMBANGAN CLEARING PROCESSING (CPR)':'23/7/2023',
-  'SUMBANGAN SINAR KEGEMILANGAN (SSK)':'11/9/2023',
-  'SEPTEMBER SUPER FAST (SSF)':'15/9/2023',
-  'SUMBANGAN CLEARING ACC (SCA)':'20/10/2023',
-  'PLAN LAST DRAW RBO (PLDRBO)':'8/11/2023',
-  'YURAN PERINTIS RM10.00':'25/11/2023',
-  'SUMBANGAN 2T RBO-TSRMT':'23/12/2023',
-  'PLAN 3C (CLOSE,COUNTDOWN,CELEBRATION)':'18/1/2024',
-  'SUMBANGAN BANTUAN KHAS APRIL 2024 RBO':'22/4/2024',
-  'PLAN BANTUAN KHAS RBO/TSRMT MEI 1':'7/5/2024',
-  'PLAN BANTUAN KHAS RBO/TSRMT MEI 2':'22/5/2024',
-  'PORTION RAHMAH RBO V1 TSRMT':'28/5/2024',
-  'PORTION RAHMAH RBO V2 TSRMT':'10/6/2024',
   'PLAN SINAR PELANGI':'1/9/2024',
-  'BANTUAN KHAS RBO KLCC UPFRONT OCT 2024-1':'1/10/2024',
-  'BANTUAN KHAS RBO KLCC UPFRONT OCT 2024-2':'22/10/2024',
-  'PLAN FLY HIGH RBO -TSRMT':'17/1/2025',
-  'PLAN ADVANCE SYAWAL- VS1':'25/2/2025',
-  'PLAN ADVANCE SYAWAL- VS2':'15/3/2025',
-  'PLAN CRUCIAL RBO/TSRMT':'10/4/2025',
-  'PLAN RBO INVOICES TSRMT':'11/7/2025',
-  'PLAN FINAL TSRTM(RBO) 2026':'24/5/2026',
-  'OSB VS-1':'26/1/2023',
-  'YURAN WEBSITE OSB':'14/7/2024',
-  'OSB VS-2':'14/7/2024',
-  'OSB VS-3':'24/5/2025',
-  'OSB VS-4':'27/6/2025'
+  'SUMBANGAN CLEARING PROCESSING (CPR)':'23/7/2023'
 };
 
+// Parse a date string (d/m/yyyy or yyyy) into a comparable timestamp
+function parsePlanDate(s){
+  if(!s) return 0;
+  const str = String(s).trim();
+  // d/m/yyyy format
+  const m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(m){
+    const d = parseInt(m[1],10), mo = parseInt(m[2],10), y = parseInt(m[3],10);
+    return new Date(y, mo-1, d).getTime();
+  }
+  // yyyy format
+  const ym = str.match(/^(\d{4})$/);
+  if(ym){
+    return new Date(parseInt(ym[1],10), 0, 1).getTime();
+  }
+  return 0;
+}
+
+// Get date for a plan: first try exact column name, then base-name fallback
+function getColumnDate(colName){
+  if(!colName) return '';
+  const upper = String(colName).toUpperCase().trim();
+  // 1. Exact column match
+  if(COLUMN_DATES[upper]) return COLUMN_DATES[upper];
+  // 2. Try without common suffixes
+  const suffixes = ['_MODAL','_TOKEN','_POCKET','_PO','_POCKET_MONEY','_LAIN','_BONUS_AWALAN'];
+  for(const suf of suffixes){
+    if(upper.endsWith(suf)){
+      const stripped = upper.slice(0, -suf.length);
+      if(COLUMN_DATES[stripped]) return COLUMN_DATES[stripped];
+    }
+  }
+  // 3. Base-name fallback
+  const baseName = extractPlanBaseName(colName);
+  const norm = baseName.toUpperCase().replace(/\s+/g,' ').trim();
+  if(PLAN_DATES[norm]) return PLAN_DATES[norm];
+  const strippedInput = norm.replace(/[()\-]/g,' ').replace(/\s+/g,' ').trim();
+  for(const [k,d] of Object.entries(PLAN_DATES)){
+    const sk = k.replace(/[()\-]/g,' ').replace(/\s+/g,' ').trim();
+    if(sk===strippedInput) return d;
+  }
+  return '';
+}
+
+// Keep old getPlanDate for backward compatibility (delegates to getColumnDate)
 function getPlanDate(baseName){
   const norm = baseName.toUpperCase().replace(/\s+/g,' ').trim();
   if(PLAN_DATES[norm]) return PLAN_DATES[norm];
@@ -2788,10 +3023,20 @@ function getPlanDate(baseName){
     const sk = k.replace(/[()\-]/g,' ').replace(/\s+/g,' ').trim();
     if(sk===strippedInput) return d;
   }
-  for(const [k,d] of Object.entries(PLAN_DATES)){
-    if(k.includes(norm) || norm.includes(k)) return d;
-  }
   return '';
+}
+
+// Format number with thousand separators (e.g. 1230 → "1,230.00")
+function fmtNum(n){
+  const num = parseFloat(String(n||'').replace(/[^0-9.\-]/g,'')) || 0;
+  return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+// Format number for display: "—" if zero, else thousand-separated
+function fmtCell(n, isTotal){
+  const num = parseFloat(String(n||'').replace(/[^0-9.\-]/g,'')) || 0;
+  if(!isTotal && num === 0) return '—';
+  return fmtNum(num);
 }
 
 /* ====================================================================
@@ -2898,34 +3143,43 @@ function buildPlanRowsForPDF(){
   });
   const planItems = monetaryEntries.filter(([k])=> !isGanjaranField(k));
   const head = ['NO','PLAN','TARIKH','MODAL','TOKEN','POCKET','LAIN-LAIN','JUMLAH IMBUHAN'];
-  let totalModal = 0, totalToken = 0, totalPocket = 0, totalLain = 0, totalJumlah = 0;
-  const body = planItems.map(([k,v], idx) => {
+  // Build row list with date for sorting
+  const rowList = planItems.map(([k,v])=>{
     const num = parseFloat(String(v||'').replace(/[^0-9.\-]/g,'')) || 0;
     const upperKey = String(k).toUpperCase();
     let modal = 0, token = 0, pocket = 0, lain = 0;
-    if(upperKey.includes('MODAL')){ modal = num; totalModal += num; }
-    else if(upperKey.includes('TOKEN')){ token = num; totalToken += num; }
-    else if(upperKey.includes('POCKET')){ pocket = num; totalPocket += num; }
-    else { lain = num; totalLain += num; }
+    if(upperKey.endsWith('_MODAL') || upperKey.includes('_MODAL_')){ modal = num; }
+    else if(upperKey.includes('TOKEN')){ token = num; }
+    else if(upperKey.includes('POCKET')){ pocket = num; }
+    else { lain = num; }
     const jumlah = token + pocket + lain;
-    totalJumlah += jumlah;
     const baseName = extractPlanBaseName(k);
-    return [
-      String(idx+1),
-      fieldLabel(baseName),
-      getPlanDate(baseName) || '-',
-      modal? modal.toFixed(2) : '-',
-      token? token.toFixed(2) : '-',
-      pocket? pocket.toFixed(2) : '-',
-      lain? lain.toFixed(2) : '-',
-      jumlah.toFixed(2)
-    ];
+    const dateStr = getColumnDate(k) || getPlanDate(baseName) || '';
+    return { k, baseName, dateStr, modal, token, pocket, lain, jumlah, ts: parsePlanDate(dateStr) };
   });
+  rowList.sort((a,b)=> (a.ts - b.ts) || a.baseName.localeCompare(b.baseName));
+  let totalModal = 0, totalToken = 0, totalPocket = 0, totalLain = 0, totalJumlah = 0;
+  rowList.forEach(r=>{
+    totalModal += r.modal; totalToken += r.token;
+    totalPocket += r.pocket; totalLain += r.lain; totalJumlah += r.jumlah;
+  });
+  const body = rowList.map((r, idx) => [
+    String(idx+1),
+    fieldLabel(r.baseName),
+    r.dateStr || '-',
+    r.modal? fmtNum(r.modal) : '-',
+    r.token? fmtNum(r.token) : '-',
+    r.pocket? fmtNum(r.pocket) : '-',
+    r.lain? fmtNum(r.lain) : '-',
+    fmtNum(r.jumlah)
+  ]);
   const foot = [
     '', 'JUMLAH KESELURUHAN', '',
-    totalModal.toFixed(2), totalToken.toFixed(2),
-    totalPocket.toFixed(2), totalLain.toFixed(2), totalJumlah.toFixed(2)
+    fmtNum(totalModal), fmtNum(totalToken),
+    fmtNum(totalPocket), fmtNum(totalLain), fmtNum(totalJumlah)
   ];
+  // Also expose totalJumlah for the big summary box
+  buildPlanRowsForPDF._totalJumlah = totalJumlah;
   return { head, body, foot };
 }
 
@@ -2958,7 +3212,7 @@ function exportPDF(){
   const contentW = pageW - margin*2;
   let y = margin;
 
-  // ====== HEADER: Logo + Title ======
+  // ====== HEADER: Logo + Title (bigger logo + watermark) ======
   // Extract logo data URI from the embedded <img> (works standalone + online)
   let logoB64 = '';
   try {
@@ -2967,26 +3221,39 @@ function exportPDF(){
       logoB64 = homeLogo.src;
     }
   } catch(e){}
+  // Bigger watermark — fills most of the page (very light, behind content)
   if(logoB64){
-    try { doc.addImage(logoB64, 'PNG', margin, y, 22, 22); } catch(e){}
+    try {
+      const wmSize = Math.min(pageW, pageH) * 0.7;
+      const wmX = (pageW - wmSize) / 2;
+      const wmY = (pageH - wmSize) / 2;
+      doc.saveGraphicsState();
+      doc.setGState(new doc.GState({ opacity: 0.06 }));
+      doc.addImage(logoB64, 'PNG', wmX, wmY, wmSize, wmSize);
+      doc.restoreGraphicsState();
+    } catch(e){}
+  }
+  // Bigger logo on each page header (32x32 instead of 22x22)
+  if(logoB64){
+    try { doc.addImage(logoB64, 'PNG', margin, y, 32, 32); } catch(e){}
   }
   doc.setFont('helvetica','bold');
-  doc.setFontSize(18);
+  doc.setFontSize(20);
   doc.setTextColor(26,16,36); // dark
-  doc.text('TSR MANAGEMENT TEAM', margin + 26, y + 8);
+  doc.text('TSR MANAGEMENT TEAM', margin + 38, y + 10);
   doc.setFont('helvetica','normal');
-  doc.setFontSize(10);
+  doc.setFontSize(11);
   doc.setTextColor(180,120,20);
-  doc.text('PORTAL SEMAKAN AHLI', margin + 26, y + 15);
+  doc.text('PORTAL SEMAKAN AHLI', margin + 38, y + 18);
   doc.setFontSize(8);
   doc.setTextColor(120,120,120);
-  doc.text('Dijana: ' + new Date().toLocaleString('en-GB'), margin + 26, y + 20);
+  doc.text('Dijana: ' + new Date().toLocaleString('en-GB'), margin + 38, y + 25);
 
   // gold horizontal rule
   doc.setDrawColor(251,191,36);
-  doc.setLineWidth(0.7);
-  doc.line(margin, y + 25, pageW - margin, y + 25);
-  y += 32;
+  doc.setLineWidth(0.8);
+  doc.line(margin, y + 36, pageW - margin, y + 36);
+  y += 42;
 
   const ahli = currentMember.ahli;
   const waris = currentMember.waris || null;
@@ -3002,15 +3269,29 @@ function exportPDF(){
   const icVal = icKey ? String(ahli[icKey] ?? '') : '';
 
   // ====== SECTION: MAKLUMAT AHLI ======
+  // Order: IC → NAMA → TEL → EMAIL → NAMA BANK → NO AKAUN → ALAMAT → GROUP → REMARK
   y = pdfSectionTitle(doc, 'MAKLUMAT AHLI', y, margin, pageW);
+  const ahliIconMap = {
+    'IC': 'IC',
+    'NAMA': 'NAMA',
+    'TEL': 'TEL',
+    'EMAIL': 'EMAIL',
+    'NAMA BANK': 'NAMA BANK',
+    'NO AKAUN': 'NO AKAUN',
+    'ALAMAT': 'ALAMAT',
+    'GROUP': 'GROUP',
+    'REMARK': 'REMARK'
+  };
   const ahliFields = [
-    ['NAMA', getVal(ahli, isNamaField)],
     ['IC', icVal],
+    ['NAMA', getVal(ahli, isNamaField)],
     ['TEL', getVal(ahli, k => String(k).toUpperCase()==='TEL' || String(k).toUpperCase().includes('TEL'))],
     ['EMAIL', getVal(ahli, isEmailField)],
-    ['ALAMAT', getVal(ahli, isAlamatField)],
     ['NAMA BANK', getVal(ahli, isBankField)],
-    ['NO AKAUN', getVal(ahli, isNoAkaunField)]
+    ['NO AKAUN', getVal(ahli, isNoAkaunField)],
+    ['ALAMAT', getVal(ahli, isAlamatField)],
+    ['GROUP', getVal(ahli, k => String(k).toUpperCase()==='GROUP')],
+    ['REMARK', getVal(ahli, isRemarkField)]
   ].filter(r => r[1] && r[1].trim());
   doc.autoTable({
     startY: y,
@@ -3028,10 +3309,12 @@ function exportPDF(){
   if(waris){
     y = pdfSectionTitle(doc, 'MAKLUMAT WARIS', y, margin, pageW);
     const warisFields = [
-      ['NAMA PEWARIS', getVal(waris, k => String(k).toUpperCase().includes('NAMA'))],
       ['IC PEWARIS', getVal(waris, k => String(k).toUpperCase().includes('IC'))],
+      ['NAMA PEWARIS', getVal(waris, k => String(k).toUpperCase().includes('NAMA'))],
       ['HUBUNGAN', getVal(waris, k => String(k).toUpperCase().includes('HUBUNGAN'))],
-      ['TEL PEWARIS', getVal(waris, k => String(k).toUpperCase().includes('TEL'))]
+      ['TEL PEWARIS', getVal(waris, k => String(k).toUpperCase().includes('TEL'))],
+      ['ALAMAT PEWARIS', getVal(waris, k => String(k).toUpperCase().includes('ALAMAT'))],
+      ['REMARK PEWARIS', getVal(waris, isRemarkField)]
     ].filter(r => r[1] && r[1].trim());
     if(warisFields.length > 0){
       doc.autoTable({
@@ -3111,6 +3394,78 @@ function exportPDF(){
   });
   y = doc.lastAutoTable.finalY + 10;
 
+  // ====== BIG JUMLAH KESELURUHAN IMBUHAN BOX (on last page before footer) ======
+  // Sum from plan table (excludes MODAL) + OSB table (excludes MODAL)
+  const planTotalJumlah = (typeof buildPlanRowsForPDF._totalJumlah === 'number')
+    ? buildPlanRowsForPDF._totalJumlah
+    : (function(){
+        // recompute if not cached
+        const pr = buildPlanRowsForPDF();
+        return pr.foot && pr.foot[7] ? parseFloat(String(pr.foot[7]).replace(/[^0-9.\-]/g,'')) || 0 : 0;
+      })();
+  // OSB total (excludes MODAL)
+  let osbTotalJumlah = 0;
+  if(currentMember && currentMember.ob){
+    const ob = currentMember.ob;
+    Object.entries(ob).forEach(([k,v])=>{
+      const u = String(k).toUpperCase();
+      if(u.includes('MODAL') || u === 'IC' || u === 'BIL' || u === 'NAMA' || u === 'TARIKH' || u === 'STATUS' || u === 'REMARK') return;
+      const num = parseFloat(String(v||'').replace(/[^0-9.\-]/g,'')) || 0;
+      if(num !== 0) osbTotalJumlah += num;
+    });
+  }
+  const grandTotal = planTotalJumlah + osbTotalJumlah;
+  const grandStr = fmtNum(grandTotal);
+
+  // Page break if not enough space
+  if(y > pageH - 60){ doc.addPage(); y = margin; }
+  // Decorative double border box
+  const boxW = pageW - margin*2;
+  const boxH = 30;
+  const boxX = margin;
+  const boxY = y + 4;
+  // Outer border (thick gold)
+  doc.setDrawColor(251,191,36);
+  doc.setLineWidth(1.2);
+  doc.roundedRect(boxX, boxY, boxW, boxH, 3, 3, 'S');
+  // Inner border (thin dark amber)
+  doc.setDrawColor(180,120,20);
+  doc.setLineWidth(0.4);
+  doc.roundedRect(boxX + 2.5, boxY + 2.5, boxW - 5, boxH - 5, 2, 2, 'S');
+  // Label
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(12);
+  doc.setTextColor(120,80,10);
+  doc.text('JUMLAH KESELURUHAN IMBUHAN', pageW/2, boxY + 11, { align: 'center' });
+  // Value (big)
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(20);
+  doc.setTextColor(180,30,30);
+  doc.text('RM ' + grandStr, pageW/2, boxY + 23, { align: 'center' });
+  y = boxY + boxH + 10;
+
+  // ====== SULIT (confidential) red translucent box on last page ======
+  if(y > pageH - 30){ doc.addPage(); y = margin; }
+  const sulitW = pageW - margin*2;
+  const sulitH = 16;
+  const sulitX = margin;
+  const sulitY = y;
+  // Red translucent fill
+  doc.saveGraphicsState();
+  doc.setGState(new doc.GState({ opacity: 0.15 }));
+  doc.setFillColor(220,38,38);
+  doc.roundedRect(sulitX, sulitY, sulitW, sulitH, 2, 2, 'F');
+  doc.restoreGraphicsState();
+  // Red border
+  doc.setDrawColor(220,38,38);
+  doc.setLineWidth(0.6);
+  doc.roundedRect(sulitX, sulitY, sulitW, sulitH, 2, 2, 'S');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(11);
+  doc.setTextColor(150,20,20);
+  doc.text('SULIT — Kegunaan dalaman TSRMT sahaja', pageW/2, sulitY + 10, { align: 'center' });
+  y = sulitY + sulitH + 6;
+
   // ====== FOOTER (on every page) ======
   const pages = doc.internal.getNumberOfPages();
   for(let i=1;i<=pages;i++){
@@ -3133,18 +3488,32 @@ function exportPDF(){
   showToast('PDF berjaya dijana', 'success');
 }
 
+// Icon map for section titles (instead of colored backgrounds)
+const PDF_SECTION_ICONS = {
+  'MAKLUMAT AHLI': '\u{1F464}',     // 👤
+  'MAKLUMAT WARIS': '\u{1F46A}',    // 👪
+  'MAKLUMAT PLAN': '\u{1F4CB}',     // 📋
+  'GANJARAN': '\u{1F381}',          // 🎁
+  'REKOD OSB': '\u{1FAA6}',         // 🪦
+  'STATUS BAYARAN': '\u{1F4B0}',    // 💰
+  'JUMLAH KESELURUHAN IMBUHAN': '\u{1F4B2}' // 💲
+};
 function pdfSectionTitle(doc, text, y, margin, pageW){
   const pageH = doc.internal.pageSize.getHeight();
   if(y > pageH - 40){ doc.addPage(); y = margin; }
-  doc.setFillColor(251,191,36);
-  doc.roundedRect(margin, y, pageW - margin*2, 8, 1.5, 1.5, 'F');
+  // Plain title with icon prefix — NO colored background
+  const icon = PDF_SECTION_ICONS[text] || '\u{1F4C4}'; // 📄 default
+  // Draw a thin gold underline beneath the title
   doc.setFont('helvetica','bold');
-  doc.setFontSize(11);
-  doc.setTextColor(26,16,36);
-  doc.text('[ TSRMT ]', margin + 3, y + 5.8);
-  // also add the actual title text after the bracket marker
-  doc.text(text, margin + 28, y + 5.8);
-  return y + 12;
+  doc.setFontSize(13);
+  doc.setTextColor(120,80,10); // dark amber
+  // jsPDF helvetica doesn't render emoji; use bracketed text label as icon substitute
+  doc.text('[' + text + ']', margin, y + 5);
+  const tw = doc.getTextWidth('[' + text + ']');
+  doc.setDrawColor(251,191,36);
+  doc.setLineWidth(0.6);
+  doc.line(margin, y + 7, margin + tw + 4, y + 7);
+  return y + 11;
 }
 
 /* ====================================================================
