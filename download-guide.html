@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Panduan Download & Betulkan Portal TSRMT</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(180deg, #0a0a14 0%, #1a1024 100%);
+  color: #fff;
+  min-height: 100vh;
+  padding: 1.5rem 1rem 4rem;
+}
+.container { max-width: 900px; margin: 0 auto; }
+header { text-align: center; margin-bottom: 2rem; }
+header h1 {
+  font-size: clamp(1.5rem, 5vw, 2.4rem);
+  background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+header p { color: #fcd34d; opacity: 0.85; font-size: 0.95rem; }
+
+/* URGENT BANNER */
+.urgent-banner {
+  background: linear-gradient(135deg, rgba(239,68,68,0.18), rgba(239,68,68,0.08));
+  border: 2px solid #ef4444;
+  border-radius: 14px;
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.8rem;
+  display: flex; gap: 1rem; align-items: flex-start;
+}
+.urgent-banner .badge {
+  flex-shrink: 0;
+  background: #ef4444;
+  color: #fff;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-weight: 900;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+.urgent-banner .body { font-size: 0.92rem; line-height: 1.6; }
+.urgent-banner .body b { color: #fca5a5; }
+.urgent-banner .body code {
+  background: #000; color: #fbbf24;
+  padding: 0.1rem 0.4rem; border-radius: 4px;
+  font-family: 'Consolas', monospace; font-size: 0.85rem;
+}
+
+.step {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(251,191,36,0.25);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+.step-header {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed rgba(251,191,36,0.2);
+}
+.step-num {
+  width: 48px; height: 48px; flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fbbf24, #d97706);
+  color: #1a1024;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; font-weight: 900;
+  box-shadow: 0 4px 14px rgba(251,191,36,0.4);
+}
+.step-title { font-size: 1.15rem; font-weight: 800; color: #fbbf24; }
+.step-sub { font-size: 0.85rem; color: #9ca3af; margin-top: 0.2rem; }
+
+.step-body { font-size: 0.95rem; line-height: 1.65; color: #e5e7eb; }
+.step-body p { margin-bottom: 0.6rem; }
+.step-body b { color: #fcd34d; }
+.step-body code {
+  background: #000; color: #fbbf24;
+  padding: 0.15rem 0.5rem; border-radius: 5px;
+  font-family: 'Consolas', monospace; font-size: 0.88rem;
+  border: 1px solid rgba(251,191,36,0.3);
+}
+
+.url-bar-mock {
+  background: #2a2a35;
+  border-radius: 20px;
+  padding: 0.6rem 1rem;
+  display: flex; align-items: center; gap: 0.6rem;
+  font-family: 'Consolas', monospace; font-size: 0.85rem;
+  margin: 0.8rem 0;
+  border: 1px solid rgba(251,191,36,0.3);
+}
+.url-bar-mock .lock { color: #22c55e; }
+.url-bar-mock .url { color: #e5e7eb; flex: 1; word-break: break-all; }
+.url-bar-mock .highlight { background: #fbbf24; color: #000; padding: 0.1rem 0.3rem; border-radius: 3px; font-weight: 800; }
+
+.tip {
+  background: rgba(34,197,94,0.1);
+  border-left: 4px solid #22c55e;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-top: 0.8rem;
+  font-size: 0.88rem;
+}
+.tip b { color: #22c55e; }
+.warn {
+  background: rgba(239,68,68,0.1);
+  border-left: 4px solid #ef4444;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-top: 0.8rem;
+  font-size: 0.88rem;
+}
+.warn b { color: #ef4444; }
+
+.files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+.file-card {
+  background: rgba(251,191,36,0.06);
+  border: 1px solid rgba(251,191,36,0.3);
+  border-radius: 10px;
+  padding: 0.9rem;
+  text-align: center;
+}
+.file-card.urgent {
+  background: rgba(239,68,68,0.1);
+  border: 2px solid #ef4444;
+}
+.file-card.urgent .name { color: #fca5a5; }
+.file-card.urgent a {
+  background: linear-gradient(90deg, #dc2626, #ef4444);
+  color: #fff;
+}
+.file-card .icon { font-size: 2rem; margin-bottom: 0.3rem; }
+.file-card .name { font-weight: 800; color: #fbbf24; font-size: 0.92rem; word-break: break-all; }
+.file-card .size { font-size: 0.75rem; color: #9ca3af; margin-top: 0.2rem; }
+.file-card a {
+  display: inline-block;
+  margin-top: 0.6rem;
+  padding: 0.4rem 0.9rem;
+  background: linear-gradient(90deg, #d97706, #fbbf24);
+  color: #1a1024;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 800;
+  font-size: 0.8rem;
+}
+.file-card a:hover { transform: translateY(-1px); }
+
+.kbd {
+  display: inline-block;
+  background: #1f1f2a;
+  border: 1px solid rgba(251,191,36,0.4);
+  border-bottom-width: 3px;
+  border-radius: 5px;
+  padding: 0.15rem 0.5rem;
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+/* TABLE COMPARISON */
+.cmp-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.8rem;
+  font-size: 0.88rem;
+}
+.cmp-table th, .cmp-table td {
+  padding: 0.55rem 0.7rem;
+  text-align: left;
+  border: 1px solid rgba(251,191,36,0.2);
+}
+.cmp-table th {
+  background: rgba(251,191,36,0.12);
+  color: #fbbf24;
+  font-weight: 800;
+}
+.cmp-table td.wrong { color: #fca5a5; text-decoration: line-through; }
+.cmp-table td.right { color: #86efac; font-weight: 700; }
+
+footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(251,191,36,0.2);
+  color: #9ca3af;
+  font-size: 0.82rem;
+}
+footer b { color: #fbbf24; }
+
+@media (max-width: 640px) {
+  .step { padding: 1rem; }
+  .step-header { gap: 0.6rem; }
+  .step-num { width: 38px; height: 38px; font-size: 1.2rem; }
+  .step-title { font-size: 1rem; }
+  .urgent-banner { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>🔧 PEMBETULAN PORTAL TSRMT</h1>
+    <p>Fix salah table — portal sekarang cari di table sebenar anda</p>
+  </header>
+
+  <!-- ============= URGENT BANNER ============= -->
+  <div class="urgent-banner">
+    <div class="badge">PENTING</div>
+    <div class="body">
+      Portal sebelum ini cari di <b>table salah</b> (<code>ahli</code>, <code>waris</code>, <code>plan</code>, <code>ob</code>) yang dicipta oleh skema lama.
+      Table sebenar awk ialah: <code>maklumat_ahli</code>, <code>maklumat_waris</code>, <code>plan_2018_2026</code>, <code>rekod_osb</code>, <code>ahli_bayar</code>.
+      <br/><br/>
+      👇 <b>3 langkah wajib di bawah</b> untuk betulkan.
+    </div>
+  </div>
+
+  <!-- ============= STEP 0: RLS FIX (NEW) ============= -->
+  <div class="step" style="border:2px solid #ef4444;">
+    <div class="step-header">
+      <div class="step-num" style="background:linear-gradient(135deg,#ef4444,#dc2626);">0</div>
+      <div>
+        <div class="step-title" style="color:#fca5a5;">FIX ERROR "SERVIS TIDAK BERFUNGSI" / "AKSES DITOLAK (RLS)"</div>
+        <div class="step-sub">Run SQL ni dulu supaya portal boleh baca data dari Supabase</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="warn" style="margin-bottom:1rem;">
+        <b>⚠️ JANGAN LANGKAU STEP NI!</b> Kalau awk search IC dan dapat error <code>SERVIS TIDAK BERFUNGSI</code> atau <code>AKSES DITOLAK (RLS)</code> — maksudnya Supabase RLS block akses baca. Run SQL ni untuk fix.
+      </div>
+      <div class="files-grid">
+        <div class="file-card urgent">
+          <div class="icon">🔓</div>
+          <div class="name">rls-policies-minimum.sql</div>
+          <div class="size">1.6 KB • PALING SELAMAT (tanpa comment)</div>
+          <a href="/rls-policies-minimum.sql" download>⬇ Download</a>
+        </div>
+        <div class="file-card urgent">
+          <div class="icon">📋</div>
+          <div class="name">rls-policies.sql</div>
+          <div class="size">2.9 KB • Versi comment penuh</div>
+          <a href="/rls-policies.sql" download>⬇ Download</a>
+        </div>
+      </div>
+      <p style="margin-top:0.8rem;"><b>Cara run:</b></p>
+      <p>1. Buka <b>Supabase Dashboard</b> → projek awk → <b>SQL Editor</b> → <b>New query</b></p>
+      <p>2. Buka fail <code>rls-policies-minimum.sql</code> dengan Notepad → <b>Copy semua</b> (Ctrl+A → Ctrl+C)</p>
+      <p>3. <b>Paste</b> ke SQL Editor → klik <b>Run</b> ✓</p>
+      <div class="tip">
+        <b>APA SQL NI BUAT?</b> Enable RLS + create 8 policies (5 read + 3 write) supaya portal boleh baca dan edit data ahli/waris. Data awk kekal selamat.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============= STEP 1: CLEANUP ============= -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">RUN SQL CLEANUP — Buang table salah</div>
+        <div class="step-sub">Drop table ahli/waris/plan/ob yang salah. Table sebenar KEKAL UTUH.</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p><b>Download</b> fail cleanup SQL di bawah, kemudian <b>run di Supabase SQL Editor</b>:</p>
+      <div class="warn" style="margin-bottom:1rem;">
+        <b>⚠️ PENTING:</b> Jika awk dapat error macam <code>syntax error at or near "satu"</code> bila run, guna <b>versi minimum</b> (4 baris sahaja, tanpa comment). Link di bawah.
+      </div>
+      <div class="files-grid">
+        <div class="file-card urgent">
+          <div class="icon">🗑️</div>
+          <div class="name">cleanup-wrong-tables.sql</div>
+          <div class="size">1 KB • Versi comment (selamat)</div>
+          <a href="/cleanup-wrong-tables.sql" download>⬇ Download</a>
+        </div>
+        <div class="file-card urgent">
+          <div class="icon">⚡</div>
+          <div class="name">cleanup-minimum.sql</div>
+          <div class="size">139 bytes • 4 baris sahaja (PALING SELAMAT)</div>
+          <a href="/cleanup-minimum.sql" download>⬇ Download</a>
+        </div>
+      </div>
+      <p style="margin-top:0.8rem;"><b>Cara run:</b></p>
+      <p>1. Buka <b>Supabase Dashboard</b> → projek awk → <b>SQL Editor</b> → <b>New query</b></p>
+      <p>2. Buka fail <code>cleanup-minimum.sql</code> (atau <code>cleanup-wrong-tables.sql</code>) dengan Notepad → <b>Copy semua</b> (Ctrl+A → Ctrl+C)</p>
+      <p>3. <b>Paste</b> ke SQL Editor → klik <b>Run</b> ✓</p>
+      <div class="tip">
+        <b>SELAMAT:</b> Script ni hanya DROP table salah (<code>ahli</code>, <code>waris</code>, <code>plan</code>, <code>ob</code>).
+        Table sebenar awk (<code>maklumat_ahli</code> dll) <b>TIDAK TERSENTUH</b>. Data Noor Suzzana & semua ahli kekal.
+      </div>
+      <div class="warn">
+        <b>JANGAN RUN</b> fail <code>supabase-schema.sql</code> lama lagi — ia yang create table salah tu. Fail tu dah dibuang dari sistem.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============= STEP 2: DOWNLOAD NEW PORTAL ============= -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-title">Download portal.html BARU (sudah dibetulkan)</div>
+        <div class="step-sub">Portal baru cari di table sebenar: maklumat_ahli, maklumat_waris, dll</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Portal.html dah di-update supaya query <b>table sebenar</b> awk:</p>
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>Jadual</th>
+            <th>Sebelum (SALAH)</th>
+            <th>Sekarang (BETUL)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Ahli</td><td class="wrong">ahli</td><td class="right">maklumat_ahli</td></tr>
+          <tr><td>Waris</td><td class="wrong">waris</td><td class="right">maklumat_waris</td></tr>
+          <tr><td>Plan</td><td class="wrong">plan</td><td class="right">plan_2018_2026</td></tr>
+          <tr><td>OB</td><td class="wrong">ob</td><td class="right">rekod_osb</td></tr>
+          <tr><td>Bayar</td><td class="right">ahli_bayar ✓</td><td class="right">ahli_bayar ✓</td></tr>
+        </tbody>
+      </table>
+      <div class="files-grid" style="margin-top:1rem;">
+        <div class="file-card">
+          <div class="icon">📄</div>
+          <div class="name">portal.html</div>
+          <div class="size">66 KB • Fail utama (BARU)</div>
+          <a href="/portal.html" target="_blank">Buka / Download</a>
+        </div>
+      </div>
+      <p style="margin-top:0.8rem;"><b>Cara download:</b></p>
+      <p>1. Klik butang <b>"Buka / Download"</b> di atas → portal terbuka di tab baru</p>
+      <p>2. Tekan <span class="kbd">Ctrl</span> + <span class="kbd">S</span> (Windows) atau <span class="kbd">Cmd</span> + <span class="kbd">S</span> (Mac)</p>
+      <p>3. Pilih <b>Save as type:</b> <code>Webpage, HTML Only</code> → <b>Save</b></p>
+      <div style="margin-top:1rem; padding:0.8rem 1rem; background:#fef3c7; border:2px solid #f59e0b; border-radius:8px; font-size:0.9rem;">
+        <b>⚠ PENTING (jika intro stuck):</b> Jika selepas buka portal.html, skrin intro "TEKAN SKRIN UNTUK MULA" nampak stuck / tak berfungsi bila diklik, tekan butang <b style="color:#b45309;">"LANGKAU KE LAMAN UTAMA"</b> di bahagian <b>bawah-kanan skrin</b>. Ini akan terus ke laman carian tanpa perlu klik intro.
+        <br/><br/>
+        <b>Pastikan awk download versi terbaru</b> — selepas klik "Buka / Download", jika browser papar versi lama (cached), tekan <span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">R</span> untuk hard-refresh tab portal itu, kemudian save semula.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============= STEP 3: CONFIG SUPABASE ============= -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-title">Isi Supabase URL & Key dalam portal.html</div>
+        <div class="step-sub">Buka portal.html dengan Notepad, ganti 2 nilai</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p><b>Right-click</b> pada <code>portal.html</code> → <b>Open with</b> → <b>Notepad</b>.</p>
+      <p>Cari 2 baris ni di bahagian atas (selepas <code>&lt;script&gt;</code> pertama):</p>
+      <div class="url-bar-mock" style="background:#000; display:block; padding:0.9rem; border-radius:8px;">
+        <span style="color:#9ca3af">window.SUPABASE_URL = </span><span style="color:#ef4444">"https://YOUR-PROJECT-REF.supabase.co"</span>;<br/>
+        <span style="color:#9ca3af">window.SUPABASE_ANON_KEY = </span><span style="color:#ef4444">"YOUR-ANON-PUBLIC-KEY"</span>;
+      </div>
+      <p style="margin-top:0.7rem;">Ganti dengan nilai sebenar dari <b>Supabase Dashboard → Settings → API</b>:</p>
+      <div class="url-bar-mock" style="background:#000; display:block; padding:0.9rem; border-radius:8px;">
+        <span style="color:#9ca3af">window.SUPABASE_URL = </span><span style="color:#22c55e">"https://abcd1234.supabase.co"</span>;<br/>
+        <span style="color:#9ca3af">window.SUPABASE_ANON_KEY = </span><span style="color:#22c55e">"eyJhbGciOiJIUzI1NiIs..."</span>;
+      </div>
+      <p style="margin-top:0.7rem;"><b>Save</b> (Ctrl+S di Notepad).</p>
+      <div class="tip">
+        <b>SIAP! 🎉</b> Klik dua-kali <code>portal.html</code> → search IC Noor Suzzana (<code>831109145762</code>) → data sebenar akan keluar!
+      </div>
+    </div>
+  </div>
+
+  <!-- ============= OPTIONAL: INSPECT ============= -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">🔍</div>
+      <div>
+        <div class="step-title">Optional — Inspeksi nama column IC</div>
+        <div class="step-sub">Kalau portal masih tak jumpa data, run script ni untuk semak nama column IC sebenar</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Portal ada <b>auto-detect IC column</b> — walaupun nama column IC awk bukan <code>"IC"</code> (cth: <code>no_ic</code>, <code>kad_pengenalan</code>), portal masih boleh jumpa. Tapi kalau nak pastikan, run script ni:</p>
+      <div class="files-grid">
+        <div class="file-card">
+          <div class="icon">🔎</div>
+          <div class="name">inspect-columns.sql</div>
+          <div class="size">3 KB • Semak nama column</div>
+          <a href="/inspect-columns.sql" download>⬇ Download SQL</a>
+        </div>
+      </div>
+      <p style="margin-top:0.7rem;">Run di Supabase SQL Editor (sama macam Step 1). Ia akan tunjuk:</p>
+      <p>• Semua nama column dalam 5 table sebenar awk</p>
+      <p>• 3 row pertama dari setiap table (untuk verify data wujud)</p>
+      <p>• Hasil carian IC <code>831109145762</code> dalam <code>maklumat_ahli</code></p>
+      <div class="tip">
+        <b>Jika column IC awk bukan "IC"</b> (cth: <code>no_ic</code>), buka portal.html dengan Notepad &amp; tukar <code>window.IC_COLUMNS</code> semua jadi <code>"no_ic"</code>. Portal akan jadi lebih pantas.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============= QUICK LINKS ============= -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">⚡</div>
+      <div>
+        <div class="step-title">Cara Pantas — Klik Terus</div>
+        <div class="step-sub">Semua fail boleh download di sini</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="files-grid">
+        <div class="file-card urgent">
+          <div class="icon">🔓</div>
+          <div class="name">rls-policies-minimum.sql</div>
+          <div class="size">1.6 KB • FIX RLS ERROR!</div>
+          <a href="/rls-policies-minimum.sql" download>⬇ Download</a>
+        </div>
+        <div class="file-card urgent">
+          <div class="icon">⚡</div>
+          <div class="name">cleanup-minimum.sql</div>
+          <div class="size">139 bytes • Buang table salah</div>
+          <a href="/cleanup-minimum.sql" download>⬇ Download</a>
+        </div>
+        <div class="file-card">
+          <div class="icon">📄</div>
+          <div class="name">portal.html</div>
+          <div class="size">2.4 MB • Fail utama</div>
+          <a href="/portal.html" target="_blank">Buka / Download</a>
+        </div>
+        <div class="file-card">
+          <div class="icon">🔎</div>
+          <div class="name">inspect-columns.sql</div>
+          <div class="size">3 KB • Optional check</div>
+          <a href="/inspect-columns.sql" download>⬇ Download</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © TSR Management Team — <b>Portal Maklumat Keahlian</b><br/>
+    Selepas cleanup + download portal baru, search IC <b>831109145762</b> → <b>Noor Suzzana</b> akan keluar ✓
+  </footer>
+
+</div>
+
+<script>
+// Cache-busting: append ?v=<timestamp> to all /portal.html links so the
+// browser always fetches the latest version (not a cached old copy).
+(function(){
+  var ts = Date.now();
+  document.querySelectorAll('a[href="/portal.html"], a[href$="/portal.html"]').forEach(function(a){
+    a.href = '/portal.html?v=' + ts;
+  });
+})();
+</script>
+
+</body>
+</html>
