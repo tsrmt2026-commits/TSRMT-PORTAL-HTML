@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSRMT - Portal Ahli</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* ===== RESET ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #FFD700; border-radius: 10px; }
+
+        /* ===== TOPBAR ===== */
+        .topbar {
+            background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+            border-bottom: 1px solid rgba(255,215,0,0.1);
+            padding: 12px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .topbar-left .logo {
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .topbar-left .logo span { font-weight:300; font-size:13px; -webkit-text-fill-color:#666; }
+        .topbar-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .btn-back {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 6px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .btn-back:hover { background: rgba(255,215,0,0.1); border-color: #FFD700; }
+        .btn-back i { margin-right: 6px; color: #FFD700; }
+        .ic-badge {
+            background: rgba(255,215,0,0.05);
+            padding: 5px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,215,0,0.1);
+            color: #FFD700;
+            font-size: 13px;
+        }
+
+        /* ===== CONTAINER ===== */
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+        /* ===== CARIAN ===== */
+        .search-card {
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 1px solid rgba(255,215,0,0.15);
+            border-radius: 24px;
+            padding: 40px 50px;
+            max-width: 900px;
+            margin: 30px auto;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.8);
+        }
+        .search-card .title { font-size:22px; font-weight:600; color:#fff; margin-bottom:6px; }
+        .search-card .title i { color:#FFD700; margin-right:10px; }
+        .search-card .desc { color:#666; font-size:14px; margin-bottom:25px; }
+        .search-box { display:flex; gap:12px; }
+        .search-box input {
+            flex:1; padding:16px 22px;
+            background:#0d0d0d; border:2px solid rgba(255,215,0,0.1); border-radius:14px;
+            color:#fff; font-size:16px; font-family:'Poppins',sans-serif;
+            transition: all 0.3s;
+        }
+        .search-box input:focus { outline:none; border-color:#FFD700; }
+        .search-box input::placeholder { color:#444; }
+        .search-box button {
+            padding:16px 40px;
+            background:linear-gradient(135deg,#FFD700,#F5A623);
+            border:none; border-radius:14px;
+            font-size:16px; font-weight:700; color:#0a0a0a;
+            cursor:pointer; transition:all 0.3s;
+            font-family:'Poppins',sans-serif;
+            white-space:nowrap;
+        }
+        .search-box button:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(255,215,0,0.3); }
+        .search-box button:disabled { opacity:0.5; cursor:not-allowed; }
+        #status { color:#666; font-size:13px; text-align:center; padding:10px 0; }
+        .stats-grid {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
+            margin-top:18px; padding-top:18px;
+            border-top:1px solid rgba(255,215,0,0.05);
+        }
+        .stat-item { text-align:center; }
+        .stat-item .number { font-size:28px; font-weight:700; color:#FFD700; display:block; }
+        .stat-item .label { font-size:11px; color:#666; text-transform:uppercase; letter-spacing:1px; margin-top:4px; }
+        .qr-section { text-align:center; margin-top:18px; padding-top:15px; border-top:1px solid rgba(255,215,0,0.05); }
+        .qr-section span { color:#444; font-size:12px; letter-spacing:2px; text-transform:uppercase; }
+        .qr-section i { color:#FFD700; margin-right:8px; }
+
+        /* ===== DASHBOARD ===== */
+        .profile-header {
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 1px solid rgba(255,215,0,0.1);
+            border-radius: 20px;
+            padding: 25px 35px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .profile-header .info h2 { font-size:26px; font-weight:700; color:#FFD700; }
+        .profile-header .info h2 i { margin-right:12px; }
+        .profile-header .info p { color:#888; font-size:14px; margin-top:4px; }
+        .badge {
+            background: linear-gradient(135deg, #FFD700, #F5A623);
+            color: #0a0a0a;
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .tabs {
+            display: flex; gap:8px; flex-wrap:wrap;
+            margin-bottom:25px;
+            background:#0d0d0d; padding:8px; border-radius:16px;
+            border:1px solid rgba(255,215,0,0.05);
+        }
+        .tab-btn {
+            padding:10px 22px;
+            background:transparent; border:none;
+            color:#666; font-family:'Poppins',sans-serif; font-size:13px; font-weight:600;
+            cursor:pointer; border-radius:12px; transition:all 0.3s;
+        }
+        .tab-btn:hover { color:#fff; background:rgba(255,215,0,0.05); }
+        .tab-btn.active { background:linear-gradient(135deg,#FFD700,#F5A623); color:#0a0a0a; }
+        .tab-btn i { margin-right:8px; }
+        .tab-content { display:none; animation:fadeIn 0.3s ease; }
+        .tab-content.active { display:block; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+        .card {
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 1px solid rgba(255,215,0,0.08);
+            border-radius: 16px;
+            padding: 20px 25px;
+            margin-bottom: 15px;
+        }
+        .card-title {
+            font-size:16px; font-weight:600; color:#FFD700;
+            margin-bottom:14px; display:flex; align-items:center; gap:10px;
+        }
+        .card-title .sub { font-size:12px; color:#666; font-weight:400; margin-left:auto; }
+        .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+        .field-item {
+            background:rgba(255,255,255,0.02);
+            padding:10px 16px; border-radius:10px;
+            border:1px solid rgba(255,215,0,0.05);
+            display:flex; justify-content:space-between; align-items:center;
+        }
+        .field-item .label { font-size:11px; color:#666; text-transform:uppercase; letter-spacing:1px; }
+        .field-item .value { font-size:14px; color:#fff; margin-top:2px; word-break:break-word; }
+        .btn-gold-sm {
+            background:linear-gradient(135deg,#FFD700,#F5A623);
+            border:none; color:#0a0a0a;
+            padding:4px 12px; border-radius:8px;
+            font-family:'Poppins',sans-serif; font-weight:600; font-size:11px;
+            cursor:pointer; transition:all 0.3s;
+            flex-shrink:0;
+        }
+        .btn-gold-sm:hover { transform:scale(1.05); }
+        .btn-pdf {
+            background:linear-gradient(135deg,#cc0000,#990000);
+            border:none; color:#fff;
+            padding:10px 24px; border-radius:10px;
+            font-family:'Poppins',sans-serif; font-weight:600; font-size:13px;
+            cursor:pointer; transition:all 0.3s;
+        }
+        .btn-pdf:hover { transform:scale(1.03); box-shadow:0 4px 20px rgba(204,0,0,0.3); }
+        .btn-pdf i { margin-right:8px; }
+        .pdf-btn-wrap { text-align:right; margin-bottom:15px; }
+        .table-wrap { overflow-x:auto; }
+        table { width:100%; border-collapse:collapse; font-size:13px; }
+        table th { text-align:left; padding:10px 12px; color:#FFD700; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:1px; border-bottom:2px solid rgba(255,215,0,0.1); }
+        table td { padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.03); color:#ccc; font-size:13px; }
+        table tr:hover { background:rgba(255,215,0,0.02); }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.85); backdrop-filter:blur(8px);
+            z-index:9999; justify-content:center; align-items:center; padding:20px;
+        }
+        .modal-overlay.show { display:flex; }
+        .modal-box {
+            background:linear-gradient(145deg,#1a1a1a,#0d0d0d);
+            border:1px solid rgba(255,215,0,0.15);
+            border-radius:20px; padding:35px;
+            max-width:500px; width:100%; max-height:90vh; overflow-y:auto;
+        }
+        .modal-box h3 { color:#FFD700; margin-bottom:8px; }
+        .modal-box p { color:#888; font-size:14px; margin-bottom:18px; }
+        .modal-box label { color:#ccc; font-size:13px; font-weight:600; display:block; margin-bottom:6px; }
+        .modal-box input, .modal-box textarea {
+            width:100%; padding:12px 16px;
+            background:#0d0d0d; border:2px solid rgba(255,215,0,0.1); border-radius:10px;
+            color:#fff; font-family:'Poppins',sans-serif; font-size:14px;
+            margin-bottom:14px; transition:all 0.3s;
+        }
+        .modal-box input:focus, .modal-box textarea:focus { outline:none; border-color:#FFD700; }
+        .modal-box textarea { min-height:70px; resize:vertical; }
+        .modal-actions { display:flex; gap:12px; justify-content:flex-end; }
+        .modal-actions .btn-cancel {
+            background:rgba(255,255,255,0.05);
+            border:1px solid rgba(255,255,255,0.1);
+            color:#888; padding:10px 24px; border-radius:10px;
+            cursor:pointer; font-family:'Poppins',sans-serif; font-weight:600;
+        }
+        .modal-actions .btn-save {
+            background:linear-gradient(135deg,#FFD700,#F5A623);
+            border:none; color:#0a0a0a;
+            padding:10px 32px; border-radius:10px;
+            font-family:'Poppins',sans-serif; font-weight:700;
+            cursor:pointer;
+        }
+        .modal-actions .btn-save:hover { transform:scale(1.02); }
+
+        /* ===== PDF ===== */
+        .pdf-premium {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a0a;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,215,0,0.1);
+        }
+        .pdf-premium .header { text-align:center; border-bottom:2px solid #FFD700; padding-bottom:20px; margin-bottom:20px; }
+        .pdf-premium .header h1 { font-size:28px; font-weight:900; color:#FFD700; letter-spacing:2px; }
+        .pdf-premium .header p { color:#888; font-size:13px; letter-spacing:2px; text-transform:uppercase; margin-top:4px; }
+        .pdf-premium .header .date { color:#444; font-size:11px; margin-top:6px; }
+        .pdf-premium .section { margin-bottom:20px; }
+        .pdf-premium .section h3 { color:#FFD700; font-size:14px; font-weight:600; border-bottom:1px solid rgba(255,215,0,0.1); padding-bottom:8px; margin-bottom:12px; letter-spacing:1px; }
+        .pdf-premium .row { display:grid; grid-template-columns:1fr 1fr; gap:6px 20px; font-size:13px; }
+        .pdf-premium .row .item { display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.03); }
+        .pdf-premium .row .item .label { color:#666; }
+        .pdf-premium .row .item .value { color:#fff; font-weight:500; }
+        .pdf-premium .footer { text-align:center; border-top:1px solid rgba(255,215,0,0.1); padding-top:15px; margin-top:15px; color:#444; font-size:10px; letter-spacing:1px; }
+        .pdf-premium .gold-line { width:60px; height:2px; background:linear-gradient(90deg,transparent,#FFD700,transparent); margin:8px auto; }
+
+        @media (max-width:768px) {
+            .topbar { padding:10px 16px; }
+            .container { padding:12px; }
+            .search-card { padding:24px; margin:20px 0; }
+            .search-box { flex-direction:column; }
+            .search-box button { width:100%; justify-content:center; }
+            .stats-grid { grid-template-columns:1fr; gap:10px; }
+            .profile-header { padding:16px; flex-direction:column; text-align:center; }
+            .grid-2 { grid-template-columns:1fr; }
+            .tabs { gap:4px; padding:6px; }
+            .tab-btn { padding:6px 12px; font-size:11px; }
+            .tab-btn span { display:none; }
+            .card { padding:14px; }
+            .modal-box { padding:20px; }
+            .pdf-premium .row { grid-template-columns:1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="topbar-left">
+            <div class="logo">TSRMT <span>| PORTAL AHLI</span></div>
+        </div>
+        <div class="topbar-right">
+            <span class="ic-badge" id="icBadge" style="display:none;"><i class="fas fa-id-card"></i> <span id="icDisplay">-</span></span>
+            <button class="btn-back" id="btnKembali" style="display:none;" onclick="kembaliKeCarian()">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+
+        <!-- HALAMAN CARIAN -->
+        <div id="pageCarian">
+            <div class="search-card">
+                <div class="title"><i class="fas fa-search"></i> Carian Ahli</div>
+                <div class="desc">Masukkan nombor IC / Passport / SSM untuk semakan data ahli</div>
+                <div class="search-box">
+                    <input type="text" id="icInput" placeholder="Contoh: 741209-04-5567" autocomplete="off">
+                    <button id="btnCari"><i class="fas fa-arrow-right"></i> CARI</button>
+                </div>
+                <div id="status"><i class="fas fa-circle" style="color:#FFD700;font-size:8px;"></i> Sedia untuk mencari</div>
+                <div class="stats-grid">
+                    <div class="stat-item"><span class="number" id="totalAhli">0</span><span class="label">Ahli Berdaftar</span></div>
+                    <div class="stat-item"><span class="number" id="totalPelawat">0</span><span class="label">Jumlah Pelawat</span></div>
+                    <div class="stat-item"><span class="number" id="pelawatHariIni">0</span><span class="label">Pelawat Hari Ini</span></div>
+                </div>
+                <div class="qr-section"><span><i class="fas fa-qrcode"></i> KONGSI QR CODE</span></div>
+            </div>
+        </div>
+
+        <!-- HALAMAN DASHBOARD -->
+        <div id="pageDashboard" style="display:none;">
+
+            <div class="profile-header">
+                <div class="info">
+                    <h2><i class="fas fa-user-circle"></i> <span id="namaAhli">-</span></h2>
+                    <p><i class="fas fa-id-card" style="color:#666;"></i> IC: <strong id="icAhli">-</strong></p>
+                </div>
+                <div><span class="badge" id="statusBadge"><i class="fas fa-circle"></i> Aktif</span></div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="tab1"><i class="fas fa-user"></i> <span>Ahli</span></button>
+                <button class="tab-btn" data-tab="tab2"><i class="fas fa-users"></i> <span>Waris</span></button>
+                <button class="tab-btn" data-tab="tab3"><i class="fas fa-chart-pie"></i> <span>Plan</span></button>
+                <button class="tab-btn" data-tab="tab4"><i class="fas fa-gift"></i> <span>Ganjaran</span></button>
+                <button class="tab-btn" data-tab="tab5"><i class="fas fa-coins"></i> <span>OSB</span></button>
+                <button class="tab-btn" data-tab="tab6"><i class="fas fa-file-pdf"></i> <span>PDF</span></button>
+            </div>
+
+            <!-- TAB 1 -->
+            <div class="tab-content active" id="tab1">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-edit"></i> Maklumat Ahli <span class="sub">Klik <i class="fas fa-pen" style="color:#FFD700;"></i> untuk edit</span></div>
+                    <div id="maklumatAhliContent" class="grid-2"></div>
+                </div>
+            </div>
+
+            <!-- TAB 2 -->
+            <div class="tab-content" id="tab2">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-users"></i> Maklumat Waris</div>
+                    <div id="maklumatWarisContent" class="grid-2"></div>
+                </div>
+            </div>
+
+            <!-- TAB 3 -->
+            <div class="tab-content" id="tab3">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-chart-pie"></i> Plan 2018-2026</div>
+                    <div class="table-wrap"><table><thead><tr><th>Bil</th><th>Plan</th><th>Modal</th><th>PO</th><th>Lain</th></tr></thead><tbody id="planTableBody"></tbody></table></div>
+                </div>
+            </div>
+
+            <!-- TAB 4 -->
+            <div class="tab-content" id="tab4">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-gift"></i> Ganjaran &amp; Plan Bukan Wang</div>
+                    <div id="ganjaranContent"></div>
+                </div>
+            </div>
+
+            <!-- TAB 5 -->
+            <div class="tab-content" id="tab5">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-coins"></i> Rekod OSB</div>
+                    <div id="osbContent"></div>
+                </div>
+            </div>
+
+            <!-- TAB 6 -->
+            <div class="tab-content" id="tab6">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-file-pdf"></i> Laporan Penuh</div>
+                    <div class="pdf-btn-wrap"><button class="btn-pdf" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Muat Turun PDF</button></div>
+                    <div id="pdfContainer" class="pdf-premium">
+                        <div id="pdfInner"><p style="color:#666;text-align:center;padding:20px;">Sediakan laporan...</p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL EDIT -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-box">
+            <h3><i class="fas fa-edit" style="color:#FFD700;"></i> Kemaskini Data</h3>
+            <p id="editModalDesc">Sila kemaskini data di bawah:</p>
+            <label>Nilai Baharu</label>
+            <input type="text" id="editField" placeholder="Masukkan nilai baharu...">
+            <label>Sebab Kemaskini <span style="color:#ff4444;">*</span></label>
+            <textarea id="editSebab" placeholder="Nyatakan sebab kemaskini..."></textarea>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeEditModal()">Batal</button>
+                <button class="btn-save" onclick="saveEdit()"><i class="fas fa-save"></i> Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        // ================================================================
+        // ⚙️ KONFIGURASI
+        // ================================================================
+        var SUPABASE_URL = "https://qsoqmzlhgskfweipzwgm.supabase.co";
+        var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzb3FtemxoZ3NrZndlaXB6d2dtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3ODY5ODQsImV4cCI6MjA5NzM2Mjk4NH0.8HlB0ZhlvUNfX_sMTufNvveDdSZ-aP_tICB1u_jNvhk";
+        var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // ================================================================
+        // 🧩 STATE
+        // ================================================================
+        var currentIC = '';
+        var currentData = {
+            ahliBayar: null,
+            maklumatAhli: {},
+            maklumatWaris: {},
+            planData: {},
+            osbData: {},
+            ganjaranData: []
+        };
+        var editContext = {};
+
+        // ================================================================
+        // 🏠 NAVIGASI
+        // ================================================================
+        function showPage(page) {
+            if (page === 'carian') {
+                document.getElementById('pageCarian').style.display = 'block';
+                document.getElementById('pageDashboard').style.display = 'none';
+                document.getElementById('icBadge').style.display = 'none';
+                document.getElementById('btnKembali').style.display = 'none';
+                document.getElementById('icInput').focus();
+            } else {
+                document.getElementById('pageCarian').style.display = 'none';
+                document.getElementById('pageDashboard').style.display = 'block';
+                document.getElementById('icBadge').style.display = 'inline-block';
+                document.getElementById('btnKembali').style.display = 'inline-block';
+            }
+        }
+
+        function kembaliKeCarian() {
+            showPage('carian');
+            document.getElementById('status').innerHTML = '<i class="fas fa-circle" style="color:#FFD700;font-size:8px;"></i> Sedia untuk mencari';
+            document.getElementById('icInput').value = '';
+            document.getElementById('icInput').focus();
+        }
+
+        // ================================================================
+        // 🔍 CARIAN
+        // ================================================================
+        async function cariAhli() {
+            var ic = document.getElementById('icInput').value.trim();
+            var status = document.getElementById('status');
+            var btn = document.getElementById('btnCari');
+            if (!ic) {
+                status.innerHTML = '<i class="fas fa-exclamation-circle" style="color:#FFD700;"></i> Sila masukkan IC';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mencari...';
+            status.innerHTML = '<i class="fas fa-spinner fa-spin" style="color:#FFD700;"></i> Mencari data...';
+
+            try {
+                var { data, error } = await supabase
+                    .from('ahli_bayar')
+                    .select('IC, NAMA')
+                    .eq('IC', ic)
+                    .maybeSingle();
+
+                if (error) throw error;
+                if (!data) {
+                    status.innerHTML = '<i class="fas fa-times-circle" style="color:#ff4444;"></i> Tiada rekod untuk IC: <strong>' + ic + '</strong>';
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-arrow-right"></i> CARI';
+                    return;
+                }
+
+                status.innerHTML = '<i class="fas fa-check-circle" style="color:#00ff88;"></i> Ditemui! Memuatkan data...';
+                currentIC = ic;
+                localStorage.setItem('ic_carian', ic);
+                await loadDashboard(ic);
+                showPage('dashboard');
+                document.getElementById('icDisplay').textContent = ic;
+                document.getElementById('icAhli').textContent = ic;
+                document.getElementById('namaAhli').textContent = data.NAMA || 'Tiada Nama';
+
+            } catch (err) {
+                status.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#ff4444;"></i> Ralat: ' + err.message;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-arrow-right"></i> CARI';
+            }
+        }
+
+        // ================================================================
+        // 📊 LOAD DASHBOARD
+        // ================================================================
+        async function loadDashboard(ic) {
+            try {
+                var [ahli, maklumat, waris, plan, osb, ganjaran] = await Promise.all([
+                    supabase.from('ahli_bayar').select('*').eq('IC', ic).maybeSingle(),
+                    supabase.from('maklumat_ahli').select('*').eq('IC', ic).maybeSingle(),
+                    supabase.from('maklumat_waris').select('*').eq('IC', ic).maybeSingle(),
+                    supabase.from('plan_2018_2026').select('*').eq('IC', ic).maybeSingle(),
+                    supabase.from('rekod_osb').select('*').eq('IC', ic).maybeSingle(),
+                    supabase.from('ganjaran').select('*').eq('IC', ic)
+                ]);
+
+                if (ahli.error) throw ahli.error;
+                if (!ahli.data) throw new Error('Data ahli tidak ditemui');
+
+                currentData.ahliBayar = ahli.data;
+                currentData.maklumatAhli = maklumat.data || {};
+                currentData.maklumatWaris = waris.data || {};
+                currentData.planData = plan.data || {};
+                currentData.osbData = osb.data || {};
+                currentData.ganjaranData = ganjaran.data || [];
+
+                renderAll();
+
+            } catch (err) {
+                alert('Ralat: ' + err.message);
+                kembaliKeCarian();
+            }
+        }
+
+        // ================================================================
+        // 📝 RENDER
+        // ================================================================
+        function renderAll() {
+            renderMaklumatAhli();
+            renderMaklumatWaris();
+            renderPlan();
+            renderGanjaran();
+            renderOsb();
+            renderPdf();
+        }
+
+        function renderMaklumatAhli() {
+            var data = currentData.maklumatAhli;
+            var container = document.getElementById('maklumatAhliContent');
+            var fields = [
+                { key: 'NAMA', label: 'Nama Penuh' },
+                { key: 'TEL', label: 'No. Telefon' },
+                { key: 'EMAIL', label: 'Emel' },
+                { key: 'NAMA_BANK', label: 'Nama Bank' },
+                { key: 'NO_AKAUN', label: 'No. Akaun' },
+                { key: 'ALAMAT', label: 'Alamat' },
+                { key: 'GROUP', label: 'Kumpulan' },
+                { key: 'REMARK', label: 'Catatan' }
+            ];
+            var html = '';
+            fields.forEach(function(f) {
+                var val = data[f.key] || '-';
+                var escapedVal = val.replace(/'/g, "\\'");
+                html += '<div class="field-item">' +
+                    '<div><div class="label">' + f.label + '</div><div class="value">' + val + '</div></div>' +
+                    '<button class="btn-gold-sm" onclick="openEditModal(\'maklumat_ahli\',\'' + f.key + '\',\'' + f.label + '\',\'' + escapedVal + '\')"><i class="fas fa-pen"></i></button>' +
+                    '</div>';
+            });
+            container.innerHTML = html;
+        }
+
+        function renderMaklumatWaris() {
+            var data = currentData.maklumatWaris;
+            var container = document.getElementById('maklumatWarisContent');
+            var fields = [
+                { key: 'IC_PEWARIS', label: 'IC Pewaris' },
+                { key: 'NAMA_PEWARIS', label: 'Nama Pewaris' },
+                { key: 'TEL_PEWARIS', label: 'Telefon Pewaris' },
+                { key: 'ALAMAT_PEWARIS', label: 'Alamat Pewaris' },
+                { key: 'HUBUNGAN_DENGAN_AHLI', label: 'Hubungan' }
+            ];
+            var html = '';
+            fields.forEach(function(f) {
+                var val = data[f.key] || '-';
+                var escapedVal = val.replace(/'/g, "\\'");
+                html += '<div class="field-item">' +
+                    '<div><div class="label">' + f.label + '</div><div class="value">' + val + '</div></div>' +
+                    '<button class="btn-gold-sm" onclick="openEditModal(\'maklumat_waris\',\'' + f.key + '\',\'' + f.label + '\',\'' + escapedVal + '\')"><i class="fas fa-pen"></i></button>' +
+                    '</div>';
+            });
+            container.innerHTML = html;
+        }
+
+        function renderPlan() {
+            var data = currentData.planData;
+            var container = document.getElementById('planTableBody');
+            var planKeys = Object.keys(data).filter(function(k) {
+                return k.includes('_MODAL') && data[k] && data[k] !== '' && data[k] !== '0';
+            });
+            if (planKeys.length === 0) {
+                container.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#666;padding:15px;">Tiada plan aktif.</td></tr>';
+                return;
+            }
+            var html = '', bil = 1;
+            planKeys.forEach(function(key) {
+                var poKey = key.replace('_MODAL', '_PO');
+                var tokenKey = key.replace('_MODAL', '_TOKEN');
+                var advanceKey = key.replace('_MODAL', '_ADVANCE');
+                var name = key.replace('_MODAL', '').replace(/_/g, ' ').trim();
+                var modal = data[key] || '-';
+                var po = data[poKey] || '-';
+                var extra = '';
+                if (data[tokenKey]) extra += 'Token: ' + data[tokenKey] + ' | ';
+                if (data[advanceKey]) extra += 'Advance: ' + data[advanceKey];
+                if (extra === '') extra = '-';
+                html += '<tr><td>' + bil + '</td><td style="color:#FFD700;font-weight:600;">' + name + '</td><td>' + modal + '</td><td>' + po + '</td><td>' + extra + '</td></tr>';
+                bil++;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderGanjaran() {
+            var data = currentData.ganjaranData;
+            var container = document.getElementById('ganjaranContent');
+            if (!data || data.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:15px;color:#666;">Tiada rekod ganjaran.</div>';
+                return;
+            }
+            var html = '<div class="table-wrap"><table><thead><tr><th>Bil</th><th>Plan</th><th>Ganjaran</th></tr></thead><tbody>';
+            data.forEach(function(item, idx) {
+                var planName = item.plan_name || item.PLAN_NAME || '-';
+                var ganjaran = item.ganjaran || item.GANJARAN || '-';
+                html += '<tr><td>' + (idx + 1) + '</td><td style="color:#FFD700;">' + planName + '</td><td>' + ganjaran + '</td></tr>';
+            });
+            html += '</tbody></table></div>';
+            container.innerHTML = html;
+        }
+
+        function renderOsb() {
+            var data = currentData.osbData;
+            var container = document.getElementById('osbContent');
+            if (!data || Object.keys(data).length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:15px;color:#666;">Tiada rekod OSB.</div>';
+                return;
+            }
+            var groups = {
+                'YURAN_WEBISITE': 'Yuran Website',
+                'OSB_VS1': 'OSB VS1',
+                'OSB_VS2': 'OSB VS2',
+                'OSB_VS3': 'OSB VS3',
+                'OSB_VS4': 'OSB VS4'
+            };
+            var html = '<div class="table-wrap"><table><thead><tr><th>Bil</th><th>Kategori</th><th>Modal</th><th>PO</th><th>Bonus</th><th>Lain</th></tr></thead><tbody>';
+            var bil = 1;
+            for (var prefix in groups) {
+                var modal = data[prefix + '_MODAL'] || '-';
+                var po = data[prefix + '_PO'] || '-';
+                var bonus = data[prefix + '_BONUS'] || '-';
+                var extra = '';
+                if (prefix === 'OSB_VS1') {
+                    var pm = data[prefix + '_POCKET-MONEY'] || '';
+                    if (pm) extra += 'Pocket: ' + pm;
+                    var be = data[prefix + '_BONUS_EXTRA_1JUTA_AHLI_LAMA'] || '';
+                    if (be) extra += (extra ? ' | ' : '') + 'Bonus Extra: ' + be;
+                }
+                if (prefix === 'OSB_VS3') {
+                    var lb = data[prefix + '_LOYALTY_BONUS'] || '';
+                    if (lb) extra = 'Loyalty: ' + lb;
+                }
+                if (modal === '-' && po === '-' && bonus === '-' && !extra) continue;
+                html += '<tr><td>' + bil + '</td><td style="color:#FFD700;font-weight:600;">' + groups[prefix] + '</td><td>' + modal + '</td><td>' + po + '</td><td>' + bonus + '</td><td style="font-size:11px;color:#888;">' + (extra || '-') + '</td></tr>';
+                bil++;
+            }
+            html += '</tbody></table></div>';
+            container.innerHTML = html;
+        }
+
+        function renderPdf() {
+            var a = currentData.ahliBayar || {};
+            var m = currentData.maklumatAhli || {};
+            var w = currentData.maklumatWaris || {};
+            var now = new Date().toLocaleString('ms-MY', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+            var html = `
+                <div class="header">
+                    <h1>🏆 TSRMT</h1>
+                    <p>LAPORAN LENGKAP AHLI</p>
+                    <div class="gold-line"></div>
+                    <div class="date">Dijana: ${now}</div>
+                </div>
+                <div class="section">
+                    <h3><i class="fas fa-user" style="color:#FFD700;"></i> Maklumat Ahli</h3>
+                    <div class="row">
+                        <div class="item"><span class="label">Nama Penuh</span><span class="value">${a.NAMA || '-'}</span></div>
+                        <div class="item"><span class="label">No. IC</span><span class="value">${a.IC || '-'}</span></div>
+                        <div class="item"><span class="label">No. Telefon</span><span class="value">${m.TEL || '-'}</span></div>
+                        <div class="item"><span class="label">Emel</span><span class="value">${m.EMAIL || '-'}</span></div>
+                        <div class="item"><span class="label">Nama Bank</span><span class="value">${m.NAMA_BANK || '-'}</span></div>
+                        <div class="item"><span class="label">No. Akaun</span><span class="value">${m.NO_AKAUN || '-'}</span></div>
+                        <div class="item" style="grid-column:span 2;"><span class="label">Alamat</span><span class="value">${m.ALAMAT || '-'}</span></div>
+                        <div class="item"><span class="label">Kumpulan</span><span class="value">${m.GROUP || '-'}</span></div>
+                        <div class="item"><span class="label">Catatan</span><span class="value">${m.REMARK || '-'}</span></div>
+                    </div>
+                </div>
+                <div class="section">
+                    <h3><i class="fas fa-users" style="color:#FFD700;"></i> Maklumat Waris</h3>
+                    <div class="row">
+                        <div class="item"><span class="label">Nama Pewaris</span><span class="value">${w.NAMA_PEWARIS || '-'}</span></div>
+                        <div class="item"><span class="label">IC Pewaris</span><span class="value">${w.IC_PEWARIS || '-'}</span></div>
+                        <div class="item"><span class="label">Telefon Pewaris</span><span class="value">${w.TEL_PEWARIS || '-'}</span></div>
+                        <div class="item"><span class="label">Hubungan</span><span class="value">${w.HUBUNGAN_DENGAN_AHLI || '-'}</span></div>
+                        <div class="item" style="grid-column:span 2;"><span class="label">Alamat Pewaris</span><span class="value">${w.ALAMAT_PEWARIS || '-'}</span></div>
+                    </div>
+                </div>
+                <div class="section">
+                    <h3><i class="fas fa-chart-pie" style="color:#FFD700;"></i> Ringkasan Plan</h3>
+                    <div class="row">
+                        <div class="item" style="grid-column:span 2;"><span class="label">Jumlah Plan Aktif</span><span class="value">${Object.keys(currentData.planData).filter(k => k.includes('_MODAL') && currentData.planData[k]).length}</span></div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <p>Laporan ini adalah hak milik TSRMT</p>
+                    <p style="font-size:8px;color:#333;margin-top:2px;">* Sila hubungi pentadbir jika ada sebarang pertanyaan</p>
+                </div>
+            `;
+            document.getElementById('pdfInner').innerHTML = html;
+        }
+
+        // ================================================================
+        // ✏️ EDIT
+        // ================================================================
+        function openEditModal(table, field, label, currentValue) {
+            editContext = { table: table, field: field, label: label, currentValue: currentValue };
+            document.getElementById('editModalDesc').textContent = 'Kemaskini "' + label + '":';
+            document.getElementById('editField').value = currentValue !== '-' ? currentValue : '';
+            document.getElementById('editSebab').value = '';
+            document.getElementById('editModal').classList.add('show');
+            document.getElementById('editField').focus();
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('show');
+        }
+
+        async function saveEdit() {
+            var newValue = document.getElementById('editField').value.trim();
+            var sebab = document.getElementById('editSebab').value.trim();
+            if (!sebab) { alert('Sila nyatakan sebab kemaskini.'); return; }
+            if (newValue === editContext.currentValue || (newValue === '' && editContext.currentValue === '-')) {
+                alert('Tiada perubahan.');
+                closeEditModal();
+                return;
+            }
+            try {
+                var update = {};
+                update[editContext.field] = newValue || null;
+                var { error } = await supabase.from(editContext.table).update(update).eq('IC', currentIC);
+                if (error) throw error;
+
+                var logTable = editContext.table === 'maklumat_waris' ? 'log_waris' : 'log_edit_ahli';
+                await supabase.from(logTable).insert({
+                    ic: currentIC,
+                    nama: currentData.ahliBayar.NAMA || 'Tiada Nama',
+                    medan_diubah: editContext.label,
+                    field: editContext.field,
+                    rekod_lama: editContext.currentValue !== '-' ? editContext.currentValue : '',
+                    rekod_baharu: newValue || '',
+                    sebab: sebab
+                });
+
+                if (editContext.table === 'maklumat_ahli') {
+                    currentData.maklumatAhli[editContext.field] = newValue;
+                    renderMaklumatAhli();
+                } else if (editContext.table === 'maklumat_waris') {
+                    currentData.maklumatWaris[editContext.field] = newValue;
+                    renderMaklumatWaris();
+                }
+                renderPdf();
+                closeEditModal();
+                alert('✅ Data berjaya dikemaskini!');
+
+            } catch (err) {
+                alert('⚠️ Ralat: ' + err.message);
+            }
+        }
+
+        // ================================================================
+        // 📄 PDF
+        // ================================================================
+        function exportPDF() {
+            var el = document.getElementById('pdfInner');
+            var btn = document.querySelector('.btn-pdf');
+            var container = document.getElementById('pdfContainer');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menghasilkan PDF...';
+
+            var opt = {
+                margin: [10, 10, 10, 10],
+                filename: 'Laporan_Ahli_' + currentIC + '_' + new Date().toISOString().slice(0, 10) + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, backgroundColor: '#0a0a0a', useCORS: true, logging: false },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+
+            var clone = el.cloneNode(true);
+            clone.style.padding = '20px';
+            clone.style.background = '#0a0a0a';
+            clone.style.color = '#fff';
+            clone.style.borderRadius = '0';
+            clone.style.border = 'none';
+
+            var parent = el.parentNode;
+            parent.innerHTML = '';
+            parent.appendChild(clone);
+
+            html2pdf().set(opt).from(clone).save().then(function() {
+                parent.innerHTML = '';
+                parent.appendChild(el);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-file-pdf"></i> Muat Turun PDF';
+                renderPdf();
+            }).catch(function(err) {
+                parent.innerHTML = '';
+                parent.appendChild(el);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-file-pdf"></i> Muat Turun PDF';
+                renderPdf();
+                alert('Ralat PDF: ' + err.message);
+            });
+        }
+
+        // ================================================================
+        // 🔄 TABS
+        // ================================================================
+        document.querySelectorAll('.tab-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+                this.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(function(tc) { tc.classList.remove('active'); });
+                document.getElementById(this.dataset.tab).classList.add('active');
+            });
+        });
+
+        // ================================================================
+        // ⌨️ ENTER
+        // ================================================================
+        document.getElementById('icInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') cariAhli();
+        });
+        document.getElementById('btnCari').addEventListener('click', cariAhli);
+
+        // ================================================================
+        // 📊 STATS
+        // ================================================================
+        async function loadStats() {
+            try {
+                var { count } = await supabase.from('ahli_bayar').select('*', { count: 'exact', head: true });
+                document.getElementById('totalAhli').textContent = count || 0;
+            } catch (e) { console.error(e); }
+
+            var pelawat = parseInt(localStorage.getItem('totalPelawat') || '0') + 1;
+            var pelawatHari = parseInt(localStorage.getItem('pelawatHariIni') || '0') + 1;
+            var hariIni = new Date().toDateString();
+            if (localStorage.getItem('lastVisit') !== hariIni) {
+                pelawatHari = 1;
+                localStorage.setItem('lastVisit', hariIni);
+            }
+            localStorage.setItem('totalPelawat', pelawat);
+            localStorage.setItem('pelawatHariIni', pelawatHari);
+            document.getElementById('totalPelawat').textContent = pelawat;
+            document.getElementById('pelawatHariIni').textContent = pelawatHari;
+        }
+        loadStats();
+
+        // ================================================================
+        // 🚀 CHECK SAVED IC
+        // ================================================================
+        var savedIC = localStorage.getItem('ic_carian');
+        if (savedIC) {
+            document.getElementById('icInput').value = savedIC;
+        }
+        document.getElementById('icInput').focus();
+
+        // ================================================================
+        // 🧹 CLOSE MODAL
+        // ================================================================
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeEditModal(); });
+        document.getElementById('editModal').addEventListener('click', function(e) { if (e.target === this) closeEditModal(); });
+
+        console.log('🚀 TSRMT Portal siap!');
+        console.log('📊 Gunakan IC untuk carian.');
+    </script>
+</body>
+</html>
