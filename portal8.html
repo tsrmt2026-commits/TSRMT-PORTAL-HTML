@@ -4173,6 +4173,7 @@ function exportPDF(){
   // ====== PAGE 2+: MAKLUMAT PLAN 2018-2026 ======
   doc.addPage();
   drawPageTitle('MAKLUMAT PLAN 2018-2026');
+  const planFirstPage = doc.getNumberOfPages(); // page number of first PLAN page
   const planRows = buildPlanRowsForPDF();
   if(planRows.body.length > 0){
     doc.autoTable({
@@ -4199,24 +4200,29 @@ function exportPDF(){
         if(data.pageNumber > 1){
           drawPageTitle('SAMBUNGAN MAKLUMAT PLAN 2018-2026');
         }
-        // On continuation pages (not the last), draw remark box at bottom
-        if(data.pageCount && data.pageNumber < data.pageCount){
-          doc.setFillColor(255, 215, 0); // gold fill
-          doc.setDrawColor(184, 134, 11); // dark gold border
-          doc.setLineWidth(0.6);
-          const boxY = pageH - 32;
-          const boxH = 12;
-          doc.roundedRect(margin, boxY, pageW - 2*margin, boxH, 2, 2, 'FD');
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(9);
-          doc.setTextColor(20, 12, 2);
-          const msg = 'SILA LIHAT SAMBUNGAN DI HALAMAN SETERUSNYA';
-          const tw = doc.getTextWidth(msg);
-          doc.text(msg, (pageW - tw)/2, boxY + 8);
-        }
       },
       margin: { left: margin, right: margin, top: 58, bottom: 42 }
     });
+    // After table: draw remark box on all PLAN pages EXCEPT the last (continuation indicator)
+    const planLastPage = doc.getNumberOfPages();
+    if(planLastPage > planFirstPage){
+      for(let p = planFirstPage; p < planLastPage; p++){
+        doc.setPage(p);
+        doc.setFillColor(255, 215, 0);
+        doc.setDrawColor(184, 134, 11);
+        doc.setLineWidth(0.6);
+        const boxY = pageH - 32;
+        const boxH = 12;
+        doc.roundedRect(margin, boxY, pageW - 2*margin, boxH, 2, 2, 'FD');
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.setTextColor(20, 12, 2);
+        const msg = 'SILA LIHAT SAMBUNGAN DI HALAMAN SETERUSNYA';
+        const tw = doc.getTextWidth(msg);
+        doc.text(msg, (pageW - tw)/2, boxY + 8);
+      }
+      doc.setPage(planLastPage); // return to last page so subsequent content draws correctly
+    }
   } else {
     doc.setFont('helvetica','italic');
     doc.setFontSize(10);
