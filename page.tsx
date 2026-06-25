@@ -9,5 +9,5 @@ import { redirect } from 'next/navigation';
 // The previous React admin app is preserved in ./page-react-backup.tsx and can be
 // restored by swapping it back in.
 export default function Page() {
-  redirect('/portal5.html');
+  redirect('/portal6.html');
 }
