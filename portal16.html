@@ -13,8 +13,11 @@
      SUPABASE CONFIG — Ganti dengan URL & ANON KEY projek Supabase anda
      ==================================================================== -->
 <script>
-  window.SUPABASE_URL = "https://qsoqmzlhgskfweipzwgm.supabase.co";
-  window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzb3FtemxoZ3NrZndlaXB6d2dtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3ODY5ODQsImV4cCI6MjA5NzM2Mjk4NH0.8HlB0ZhlvUNfX_sMTufNvveDdSZ-aP_tICB1u_jNvhk";
+  // === SUPABASE PROJECT (NEW) — updated 2026-06-29 ===
+  // Old project (qsoqmzlhgskfweipzwgm) was deactivated due to 2FA loss.
+  // All tables, schemas, and data are identical in this new project.
+  window.SUPABASE_URL = "https://ndqjwpnsolaiecxonrwe.supabase.co";
+  window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kcWp3cG5zb2xhaWVjeG9ucndlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2ODc2NTYsImV4cCI6MjA5ODI2MzY1Nn0.7t8rFTYydUiC_uJnwgMo8AMmRyixYvJJzi41M19mN6k";
   window.ADMIN_PASS = "121007";
   // ====================================================================
   // NAMA JADUAL SUPABASE — SEPADAN DENGAN TABLE SEBENAR ANDA
@@ -3403,8 +3406,14 @@ function renderPlanCard(){
   // Sort by PLAN_CATALOG order (P01-P76) — NO date sorting per user request
   pivotRows.sort((a,b)=> (a.catOrder||999) - (b.catOrder||999) );
 
-  // Filter out plans with NO value (all numeric fields zero and no ganjaran) — user request: hide empty plans
-  const planHasValue = r => (r.modal || 0) > 0;
+  // Filter out plans with NO value — must check ALL numeric fields AND ganjaran object.
+  // Previously only checked modal > 0, which hid plans that only had PO/TOKEN/BONUS values.
+  const planHasValue = r => (r.modal || 0) > 0
+    || (r.pocketMoney || 0) > 0
+    || (r.perintis || 0) > 0
+    || (r.poLain || 0) > 0
+    || (r.bonusExtra1Juta || 0) > 0
+    || (Object.keys(r.ganjaran || {}).length > 0);
   const displayRows = pivotRows.filter(planHasValue);
 
   // SPEC SECTION 5: 8 columns — NO | NAMA PLAN | TARIKH (blue) | MODAL (red) | POCKET MONEY | PERINTIS | PO&LAIN-LAIN | JUMLAH IMBUHAN (bold black on blue bg)
@@ -3651,7 +3660,19 @@ function pivotPlanOrObRows(rows){
       if(!parsed) return; // skip info columns & non-value columns
       const rawVal = r[col];
       if(rawVal == null || String(rawVal).trim() === '') return; // skip empty cells
-      const val = parseFloat(String(rawVal).replace(/[^0-9.\-]/g,'')) || 0;
+      // Robust number parsing: handles "RM11,000,000.00", "11,000,000.00", "11000000.00", 11000000, etc.
+      // Step 1: remove "RM" prefix (case-insensitive) and any currency symbols/whitespace
+      // Step 2: remove commas (thousand separators)
+      // Step 3: if multiple dots remain (e.g. "11.000.000.00" from "11,000,000.00" after comma strip gone wrong),
+      //         treat all dots except the last as thousand separators
+      let _numStr = String(rawVal).replace(/RM/i,'').replace(/[^0-9.\-]/g,'').trim();
+      const _dotCount = (_numStr.match(/\./g) || []).length;
+      if(_dotCount > 1){
+        // Multiple dots — keep only the last as decimal separator
+        const _lastDot = _numStr.lastIndexOf('.');
+        _numStr = _numStr.slice(0, _lastDot).replace(/\./g,'') + _numStr.slice(_lastDot);
+      }
+      const val = parseFloat(_numStr) || 0;
       const rawStr = String(rawVal).trim(); // RAW string for ganjaran (data fidelity)
       const { namaPlan, jenis } = parsed;
       if(!grouped[namaPlan]){
