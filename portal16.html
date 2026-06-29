@@ -3443,10 +3443,11 @@ function renderPlanCard(){
       '<td class="plan-no-col">'+pNo+'</td>'
       + '<td class="plan-name">'+(r.namaPlan||'—')+'</td>'
       + '<td class="tarikh-col">'+(r.tarikh||'—')+'</td>'
-      + '<td class="num modal-col">'+(r.modal? fmtNum(r.modal) : '—')+'</td>'
-      + '<td class="num">'+(r.pocketMoney? fmtNum(r.pocketMoney) : '—')+'</td>'
-      + '<td class="num">'+(r.perintis? fmtNum(r.perintis) : '—')+'</td>'
-      + '<td class="num">'+(r.poLain? fmtNum(r.poLain) : '—')+'</td>'
+      // Display '0.00' for zero values (instead of '—') so columns look consistent and clear.
+      + '<td class="num modal-col">'+fmtNum(r.modal || 0)+'</td>'
+      + '<td class="num">'+fmtNum(r.pocketMoney || 0)+'</td>'
+      + '<td class="num">'+fmtNum(r.perintis || 0)+'</td>'
+      + '<td class="num">'+fmtNum(r.poLain || 0)+'</td>'
       + '<td class="num jumlah-col">'+fmtNum(jumlah)+'</td>';
     tbody.appendChild(tr);
   });
@@ -3842,11 +3843,12 @@ function renderObCard(){
       '<td class="plan-no-col">'+pNo+'</td>'
       + '<td class="plan-name">'+(r.namaPlan||'—')+'</td>'
       + '<td class="tarikh-col">'+(r.tarikh||'—')+'</td>'
-      + '<td class="num modal-col">'+(r.modal? fmtNum(r.modal) : '—')+'</td>'
-      + '<td class="num">'+(r.pocketMoney? fmtNum(r.pocketMoney) : '—')+'</td>'
-      + '<td class="num">'+(r.perintis? fmtNum(r.perintis) : '—')+'</td>'
-      + '<td class="num">'+(r.poLain? fmtNum(r.poLain) : '—')+'</td>'
-      + '<td class="num bonus-extra-col">'+(bonusExtra? fmtNum(bonusExtra) : '—')+'</td>'
+      // Display '0.00' for zero values (instead of '—') so columns look consistent and clear.
+      + '<td class="num modal-col">'+fmtNum(r.modal || 0)+'</td>'
+      + '<td class="num">'+fmtNum(r.pocketMoney || 0)+'</td>'
+      + '<td class="num">'+fmtNum(r.perintis || 0)+'</td>'
+      + '<td class="num">'+fmtNum(r.poLain || 0)+'</td>'
+      + '<td class="num bonus-extra-col">'+fmtNum(bonusExtra || 0)+'</td>'
       + '<td class="num jumlah-col">'+fmtNum(jumlah)+'</td>';
     tbody.appendChild(tr);
   });
@@ -4980,10 +4982,10 @@ function buildPlanRowsForPDF(){
       'P' + String(idx+1).padStart(2,'0'),
       r.namaPlan || '-',
       r.tarikh || '-',
-      r.modal? fmtNum(r.modal) : '-',
-      r.pocketMoney? fmtNum(r.pocketMoney) : '-',
-      r.perintis? fmtNum(r.perintis) : '-',
-      r.poLain? fmtNum(r.poLain) : '-',
+      fmtNum(r.modal || 0),
+      fmtNum(r.pocketMoney || 0),
+      fmtNum(r.perintis || 0),
+      fmtNum(r.poLain || 0),
       fmtNum(jumlah)
     ];
   });
@@ -5042,11 +5044,11 @@ function buildObRowsForPDF(){
       'P' + String(idx+1).padStart(2,'0'),
       r.namaPlan || '-',
       r.tarikh || '-',
-      r.modal? fmtNum(r.modal) : '-',
-      r.pocketMoney? fmtNum(r.pocketMoney) : '-',
-      r.perintis? fmtNum(r.perintis) : '-',
-      r.poLain? fmtNum(r.poLain) : '-',
-      bonusExtra? fmtNum(bonusExtra) : '-',
+      fmtNum(r.modal || 0),
+      fmtNum(r.pocketMoney || 0),
+      fmtNum(r.perintis || 0),
+      fmtNum(r.poLain || 0),
+      fmtNum(bonusExtra || 0),
       fmtNum(jumlah)
     ];
   });
